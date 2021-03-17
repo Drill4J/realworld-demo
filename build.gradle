@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.epam.drill.agent.runner.autotest' version '0.2.2'
+    //id 'com.epam.drill.agent.runner.autotest' version '0.2.2'
 }
 
 group 'com.epam'
@@ -18,9 +18,14 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    filter {
+        includeTestsMatching("CreateNewUser")
+        includeTestsMatching("UserTest")
+        includeTestsMatching("ArticleTest")
+    }
 }
 
-drill {
+/*drill {
     version = "0.15.0-js-coverage"
     adminHost = "localhost"
     groupId = "test"
@@ -30,4 +35,4 @@ drill {
             "agentUrl"     : "localhost:8080"
     ]
     logLevel=com.epam.drill.agent.runner.LogLevels.TRACE
-}
+}*/

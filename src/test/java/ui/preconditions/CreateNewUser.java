@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
-public class CreateUserTest extends BaseTest {
+public class CreateNewUser extends BaseTest {
 
     @Test
     public void registerNewUser() {
