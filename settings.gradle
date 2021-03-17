@@ -1,2 +1,10 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven { url 'https://oss.jfrog.org/artifactory/oss-release-local' }
+    }
+}
+
 rootProject.name = 'java-and-js-coverage'
+
 
