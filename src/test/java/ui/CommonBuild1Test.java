@@ -1,17 +1,59 @@
-package ui.logged;
+package ui;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ArticleTest extends LoggedBaseTest {
+public class CommonBuild1Test extends BaseTest{
 
     @Order(1)
+    @Test
+    public void registerNewUser() {
+        $(By.partialLinkText("Sign up")).click();
+        $x("//input[@ng-reflect-name='username']").sendKeys(user);
+        $x("//input[@ng-reflect-name='email']").sendKeys(email);
+        $x("//input[@ng-reflect-name='password']").sendKeys(password);
+        $x("//button[text()=' Sign up ']").click();
+        $x("//a[@href='/profile/test']").shouldHave(text(user));
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
+    }
+
+    @Order(2)
+    @Test
+    public void loginUser() {
+        $x("//a[@href='/login']").click();
+        $x("//input[@ng-reflect-name='email']").sendKeys(email);
+        $x("//input[@ng-reflect-name='password']").sendKeys(password);
+        $x("//button[text()=' Sign in ']").click();
+        $x("//a[@href='/profile/test']").shouldHave(text(user));
+    }
+
+    @Order(3)
+    @Test
+    public void editUser() {
+        $x("//a[@href='/settings']").click();
+        $x("//input[@ng-reflect-name='image']").sendKeys(Keys.CONTROL + "a");
+        $x("//input[@ng-reflect-name='image']")
+                .sendKeys("https://avatars.githubusercontent.com/u/45690995?s=200&v=4");
+        $x("//textarea[@ng-reflect-name='bio']").sendKeys("Drill profile");
+        $x("//button[text()=' Update Settings ']").click();
+        $x("//p[contains(.,'Drill profile')]")
+                .shouldBe(visible);
+    }
+
+    @Order(4)
     @Test
     public void createNewArticle() {
         $x("//a[@href='/editor']").click();
@@ -23,7 +65,7 @@ public class ArticleTest extends LoggedBaseTest {
         $x("//div[@class='container']/h1").shouldHave(Condition.exactText("Heisenbug"));
     }
 
-    @Order(2)
+    @Order(5)
     @Test
     public void editArticle() {
         $x("//a[text()=' Global Feed ']").click();
@@ -35,7 +77,7 @@ public class ArticleTest extends LoggedBaseTest {
                 .shouldBe(Condition.visible);
     }
 
-    @Order(3)
+    @Order(6)
     @Test
     public void addComment() {
         $x("//a[text()=' Global Feed ']").click();
@@ -46,7 +88,7 @@ public class ArticleTest extends LoggedBaseTest {
                 .shouldBe(Condition.visible);
     }
 
-    @Order(4)
+    @Order(7)
     @Test
     public void deleteComment() {
         $x("//a[text()=' Global Feed ']").click();
@@ -56,7 +98,7 @@ public class ArticleTest extends LoggedBaseTest {
                 .shouldNotBe(Condition.visible);
     }
 
-    @Order(5)
+    @Order(8)
     @Test
     public void toggleHeart() {
         $x("//a[text()=' Global Feed ']").click();
@@ -64,7 +106,7 @@ public class ArticleTest extends LoggedBaseTest {
         $x("//app-favorite-button[contains(.,'1')]").shouldBe(Condition.visible);
     }
 
-    @Order(6)
+    @Order(9)
     @Test
     public void deleteArticle() {
         $x("//a[text()=' Global Feed ']").click();
@@ -73,4 +115,14 @@ public class ArticleTest extends LoggedBaseTest {
         $x("//a[text()=' Global Feed ']").click();
         $x("//a[@href='/article/heisenbug']").shouldNotBe(Condition.visible);
     }
+
+    @Order(10)
+    @Test
+    public void logoutUser() {
+        $x("//a[@href='/profile/test']").click();
+        $x("//a[@href='/settings']").click();
+        $x("//button[text()=' Or click here to logout. ']").click();
+        $x("//a[@href='/profile/test']").shouldNotBe(visible);
+    }
+
 }

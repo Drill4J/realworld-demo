@@ -1,6 +1,7 @@
 package ui;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CommonTest extends BaseTest{
+public class CommonBuild2Test extends BaseTest{
 
     @Order(1)
     @Test
@@ -23,8 +24,11 @@ public class CommonTest extends BaseTest{
         $x("//input[@ng-reflect-name='username']").sendKeys(user);
         $x("//input[@ng-reflect-name='email']").sendKeys(email);
         $x("//input[@ng-reflect-name='password']").sendKeys(password);
+        $x("//input[@ng-reflect-name='phone']").sendKeys("+1000000000");
         $x("//button[text()=' Sign up ']").click();
         $x("//a[@href='/profile/test']").shouldHave(text(user));
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
     }
 
     @Order(2)
@@ -33,6 +37,7 @@ public class CommonTest extends BaseTest{
         $x("//a[@href='/login']").click();
         $x("//input[@ng-reflect-name='email']").sendKeys(email);
         $x("//input[@ng-reflect-name='password']").sendKeys(password);
+        $x("//input[@ng-reflect-name='phone']").sendKeys("+1000000000");
         $x("//button[text()=' Sign in ']").click();
         $x("//a[@href='/profile/test']").shouldHave(text(user));
     }

@@ -18,10 +18,26 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+task testBuild1(type: Test) {
+    useJUnitPlatform()
     filter {
-        includeTestsMatching("CreateNewUser")
-        includeTestsMatching("UserTest")
-        includeTestsMatching("ArticleTest")
+        includeTestsMatching("CommonBuild1Test")
+    }
+}
+
+task testBuild2(type: Test) {
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching("CommonBuild2Test")
+    }
+}
+
+task testBuild3(type: Test) {
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching("CommonBuild3Test")
     }
 }
 
