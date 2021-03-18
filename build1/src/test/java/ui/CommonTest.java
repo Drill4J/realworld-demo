@@ -15,7 +15,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CommonBuild1Test extends BaseTest{
+public class CommonTest extends BaseTest {
 
     @Order(1)
     @Test

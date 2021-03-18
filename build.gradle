@@ -1,54 +1,33 @@
 plugins {
     id 'java'
-    //id 'com.epam.drill.agent.runner.autotest' version '0.2.2'
+    id 'com.epam.drill.agent.runner.autotest' version '0.2.2'
 }
 
 group 'com.epam'
 version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
-}
+allprojects {
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    testCompile 'com.codeborne:selenide:5.19.0'
-}
+    repositories {
+        mavenCentral()
+    }
 
-test {
-    useJUnitPlatform()
-}
+    dependencies {
+        apply plugin: 'java'
+        apply plugin: 'com.epam.drill.agent.runner.autotest'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        testCompile 'com.codeborne:selenide:5.19.0'
+    }
 
-task testBuild1(type: Test) {
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching("CommonBuild1Test")
+    drill {
+        version = "0.15.0-js-coverage"
+        adminHost = "localhost"
+        groupId = "test"
+        adminPort = 8090
+        additionalParams = [
+                "dispatcherUrl": "localhost:5003",
+                "agentUrl"     : "localhost:8080"
+        ]
     }
 }
-
-task testBuild2(type: Test) {
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching("CommonBuild2Test")
-    }
-}
-
-task testBuild3(type: Test) {
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching("CommonBuild3Test")
-    }
-}
-
-/*drill {
-    version = "0.15.0-js-coverage"
-    adminHost = "localhost"
-    groupId = "test"
-    adminPort = 8090
-    additionalParams = [
-            "dispatcherUrl": "localhost:5003",
-            "agentUrl"     : "localhost:8080"
-    ]
-    logLevel=com.epam.drill.agent.runner.LogLevels.TRACE
-}*/

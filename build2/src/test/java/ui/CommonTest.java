@@ -15,7 +15,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CommonBuild3Test extends BaseTest{
+public class CommonTest extends BaseTest {
 
     @Order(1)
     @Test
@@ -85,7 +85,6 @@ public class CommonBuild3Test extends BaseTest{
         $x("//a[text()=' Global Feed ']").click();
         $x("//a[@href='/article/heisenbug']").click();
         $x("//textarea[@placeholder='Write a comment...']").sendKeys("Does drill support MacOS?");
-        $x("//input[@ng-reflect-name='subtitle']").sendKeys("final comment");
         $x("//button[text()=' Post Comment ']").click();
         $x("//p[contains(.,'Does drill support MacOS?')]")
                 .shouldBe(Condition.visible);
@@ -98,7 +97,7 @@ public class CommonBuild3Test extends BaseTest{
         $x("//a[@href='/article/heisenbug']").click();
         $x("//div[@class='card']//i[@class='ion-trash-a']").click();
         $x("//p[contains(.,'Does drill support MacOS?')]")
-                .shouldBe(Condition.visible);
+                .shouldNotBe(Condition.visible);
     }
 
     @Order(8)

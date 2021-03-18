@@ -10,7 +10,7 @@ Demo scenario:
 * go to Drill admin http://localhost:8091 and register agents
 * run tests by
   ```shell
-  ./gradlew clean testBuild1
+  ./gradlew clean :build1:test
   ```
 * see result on Drill admin and finish scopes
 * deploy second build of app by
@@ -20,7 +20,7 @@ Demo scenario:
 * see new build notifications and diffs in Drill admin
 * run tests by
   ```shell
-  ./gradlew clean testBuild2
+  ./gradlew clean :build2:test
   ```
 * see result on Drill admin and finish scopes
 * deploy third build of app by
@@ -30,6 +30,6 @@ Demo scenario:
 * see new build notifications and diffs in Drill admin
 * run tests by
   ```shell
-  ./gradlew clean testBuild3
+  ./gradlew clean :build3:test
   ```
 * see result on Drill admin and finish scopes
