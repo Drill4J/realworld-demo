@@ -23,7 +23,7 @@ allprojects {
     drill {
         version = "0.15.0-js-coverage"
         adminHost = "localhost"
-        groupId = "test"
+        groupId = "realworld-app"
         adminPort = 8090
         additionalParams = [
                 "dispatcherUrl": "localhost:5003",

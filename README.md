@@ -8,6 +8,7 @@ Demo scenario:
   ```
 * go to http://localhost:8080 and wait application up
 * go to Drill admin http://localhost:8091 and register agents
+  > don't forget set target host http://localhost:8080/ for frontend agent
 * run tests by
   ```shell
   ./gradlew clean :build1:test
@@ -33,3 +34,8 @@ Demo scenario:
   ./gradlew clean :build3:test
   ```
 * see result on Drill admin and finish scopes
+
+* remove demo setup by
+  ```shell
+  ./demo-down.sh
+  ```
