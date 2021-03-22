@@ -8,7 +8,7 @@ Demo scenario:
   ```
 * go to http://localhost:8080 and wait application up
 * go to Drill admin http://localhost:8091 and register agents
-  > don't forget set target host http://localhost:8080/ for frontend agent
+  > don't forget to set target host http://localhost:8080/ for frontend agent
 * run tests by
   ```shell
   ./gradlew clean :build1:test

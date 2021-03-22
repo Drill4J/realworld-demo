@@ -47,7 +47,7 @@ services:
       - '5003:5003'
 
   agent-files:
-    image: drill4j/java-agent:latest
+    image: drill4j/java-agent:${JAVA_AGENT_VERSION}
     volumes:
       - agent-files:/java-agent
 
