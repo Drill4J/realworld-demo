@@ -15,9 +15,9 @@ allprojects {
     dependencies {
         apply plugin: 'java'
         apply plugin: 'com.epam.drill.agent.runner.autotest'
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-        testCompile 'com.codeborne:selenide:5.19.0'
+        testCompile 'com.codeborne:selenide:5.20.1'
     }
 
     drill {
