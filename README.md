@@ -19,8 +19,8 @@ The demo is based on [RealWorld example apps](https://codebase.show/projects/rea
 1. There is RealWorld API service and RealWorld Frontend service. These are example applications, think of them as "target" applications which you want to collect metrics from.
 
 2. Both are forked and modifed to enable Drill4J integration
-    - [Backend API service](https://github.com/Drill4J/angular-realworld-example-app)
-    - [Frontend application](https://github.com/Drill4J/spring-boot-realworld-example-app)
+    - [Backend API service](https://github.com/Drill4J/spring-boot-realworld-example-app)
+    - [Frontend application](https://github.com/Drill4J/angular-realworld-example-app)
 
 3. Additionally, [Drill4J Backend Admin API service](http://localhost:8091) and [Drill4J Admin Panel](http://localhost:8091) are deployed.
 
