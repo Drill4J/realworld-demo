@@ -4,17 +4,31 @@ This repository demonstrates how Drill4J enables various metrics collection (inc
 
 The demo is based on [RealWorld example apps](https://codebase.show/projects/realworld)
 
-> Tip: this is not an installation guide. For the installation instructions, please refer to documentation on [Drill4J Website](https://drill4j.github.io/docs/installation/drill-admin)
+## Notes
 
-The setup is quite simple:
+1. This is not an installation guide. For the installation instructions, please refer to the documentation on [Drill4J Website](https://drill4j.github.io/docs/installation/drill-admin)
 
-1. There is a backend API service and the frontend example application. Think of these as "target" (or "your") applications which you want to collect metrics from.
+2. *at the moment* this demo works only for Windows 10.
 
-2. Additionally, [Drill4J Backend Admin API service](http://localhost:8091) and [Drill4J Admin Panel](http://localhost:8091) are deployed.
+3. *at the moment* Frontend JavaScript coverage collection for automated tests works only when running **headful Chrome**
 
-## Deploy Drill4J services and the **first application build**
+> Efforts to enable Frontend coverage collection for both headless Chrome support and Linux/macOS are in progress.
 
-1. Launch Drill4J services & deploy first application build
+## Setup overview
+
+1. There is RealWorld API service and RealWorld Frontend service. These are example applications, think of them as "target" applications which you want to collect metrics from.
+
+2. Both are forked and modifed to enable Drill4J integration
+    - [Backend API service](https://github.com/Drill4J/angular-realworld-example-app)
+    - [Frontend application](https://github.com/Drill4J/spring-boot-realworld-example-app)
+
+3. Additionally, [Drill4J Backend Admin API service](http://localhost:8091) and [Drill4J Admin Panel](http://localhost:8091) are deployed.
+
+## Running demo
+
+### Deploy Drill4J services and the **1-st** application build
+
+1. Launch Drill4J services & deploy 1-st application build
 
     ```shell
     ./demo-up.sh
@@ -26,7 +40,7 @@ The setup is quite simple:
 
       > There is no need to specify any parameters during the registration, just click through steps leaving everything as-is.
 
-## Run tests for the **first application build**
+### Run tests for the **1-st** application build
 
 1. Run
 
@@ -40,9 +54,10 @@ The setup is quite simple:
 
 4. Finish both scopes
 
-## Deploy the **second application build**
 
-1. Deploy the second application build
+### Deploy the **2-nd** application build
+
+1. Deploy the 2-nd application build
 
     ```shell
     ./demo-deploy-build2.sh
@@ -52,7 +67,7 @@ The setup is quite simple:
 
 3. **Optional**: Click on the "Dashboard" button inside notification to explore the new build. See how Drill4J detected new, modified and deleted methods
 
-## Run tests for the **second application build**
+### Run tests for the **2-nd** application build
 
 1. Run tests by
 
@@ -66,9 +81,10 @@ The setup is quite simple:
 
 4. Finish both scopes
 
-## Deploy the **third application build**
 
-1. Deploy the second application build
+### Deploy the **3-rd** application build
+
+1. Deploy the 2-nd application build
 
     ```shell
     ./demo-deploy-build3.sh
@@ -76,7 +92,7 @@ The setup is quite simple:
 
 2. Again, wait for build notification to appear in the (bell in the top-right corner must have a red circle next to it)
 
-## Run tests for the **third application build**
+### Run tests for the **3-rd** application build
 
 1. Run
 
