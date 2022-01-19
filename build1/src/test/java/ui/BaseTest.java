@@ -34,4 +34,11 @@ public class BaseTest {
     public void openBaseUrl() {
         open(Configuration.baseUrl);
     }
+
+    @BeforeEach
+    void setUp() {
+        Configuration.driverManagerEnabled = false;
+        Configuration.remote = "http://host.docker.internal:4444/wd/hub";
+    }
+
 }
