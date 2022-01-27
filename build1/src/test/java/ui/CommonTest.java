@@ -17,6 +17,8 @@ import static com.codeborne.selenide.Selenide.$x;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CommonTest extends BaseTest {
 
+    private final int sleepTime = 15_000;
+
     @Order(1)
     @Test
     public void registerNewUser() {
@@ -100,13 +102,49 @@ public class CommonTest extends BaseTest {
 
     @Order(8)
     @Test
+    public void hugeTest_1() throws InterruptedException {
+        $x("//a[text()=' Global Feed ']").click();
+        Thread.sleep(sleepTime);
+    }
+
+    @Order(9)
+    @Test
+    public void hugeTest_2() throws InterruptedException {
+        $x("//a[text()=' Global Feed ']").click();
+        Thread.sleep(sleepTime);
+    }
+
+    @Order(10)
+    @Test
+    public void hugeTest_3() throws InterruptedException {
+        $x("//a[text()=' Global Feed ']").click();
+        Thread.sleep(sleepTime);
+    }
+
+    @Order(11)
+    @Test
+    public void hugeTest_4() throws InterruptedException {
+        $x("//a[text()=' Global Feed ']").click();
+        Thread.sleep(sleepTime);
+    }
+    @Order(12)
+    @Test
+    public void hugeTest_5() throws InterruptedException {
+        $x("//a[text()=' Global Feed ']").click();
+        Thread.sleep(sleepTime);
+    }
+
+
+    @Order(14)
+    @Test
     public void toggleHeart() {
         $x("//a[text()=' Global Feed ']").click();
         $x("//i[@class='ion-heart']").click();
         $x("//app-favorite-button[contains(.,'1')]").shouldBe(Condition.visible);
     }
 
-    @Order(9)
+
+    @Order(15)
     @Test
     public void deleteArticle() {
         $x("//a[text()=' Global Feed ']").click();
@@ -116,7 +154,7 @@ public class CommonTest extends BaseTest {
         $x("//a[@href='/article/heisenbug']").shouldNotBe(Condition.visible);
     }
 
-    @Order(10)
+    @Order(16)
     @Test
     public void logoutUser() {
         $x("//a[@href='/profile/test']").click();
