@@ -10,6 +10,7 @@ services:
 
   drill-admin:
     image: drill4j/admin:${BACK_VERSION}
+    container_name: drill-admin
     environment:
       - TEST2CODE_PLUGIN_VERSION=${TEST2CODE_PLUGIN_VERSION}
       - DRILL_DEFAULT_PACKAGES=${DRILL_DEFAULT_PACKAGES}
