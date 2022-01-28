@@ -25,6 +25,7 @@ services:
 
   jsagent:
     image: drill4j/js-agent:${JS_AGENT_VERSION}
+    container_name: jsagent
     hostname: jsagent
     ports:
       - '9404:9404'
