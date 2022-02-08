@@ -2,33 +2,37 @@ import groovy.json.JsonSlurper
 
 
 static Set<String> suggestedTests() {
-    final String url = "http://localhost:8091/api/agents/spring-realworld-backend/plugins/test2code/data/tests-to-run"
-    def baseUrl = new URL(url)
-    String response = ""
-    HttpURLConnection connection = (HttpURLConnection) baseUrl.openConnection();
-    connection.addRequestProperty("Accept", "application/json")
-    connection.addRequestProperty("Content-Type", "application/json")
-    connection.with {
-        doOutput = true
-        requestMethod = 'GET'
-        response = content.text
-    }
-
-    JsonSlurper json = new JsonSlurper()
-    Map<String, String> parseJson = json.parseText(response) as Map
     Set<String> test2run = []
-    if (parseJson.totalCount > 0) {
-        ArrayList tests = parseJson.byType.AUTO
-        def patternMethod = ~/(?<=method:)([\w]+)/
-        def patternClass = ~/(?<=class:)(.*?)(?=])/
+    try {
+        final String url = "http://localhost:8091/api/groups/realworld-app/plugins/test2code/data/tests-to-run"
+        def baseUrl = new URL(url)
+        String response = ""
+        HttpURLConnection connection = (HttpURLConnection) baseUrl.openConnection();
+        connection.addRequestProperty("Accept", "application/json")
+        connection.addRequestProperty("Content-Type", "application/json")
+        connection.with {
+            doOutput = true
+            requestMethod = 'GET'
+            response = content.text
+        }
 
-        for (String item : tests) {
-            def matchMethod = (item =~ patternMethod)
-            def matchClass = (item =~ patternClass)
-            if (matchClass && matchMethod) {
-                test2run.add(matchClass.group(1) + "." + matchMethod.group(1))
+        JsonSlurper json = new JsonSlurper()
+        Map<String, String> parseJson = json.parseText(response) as Map
+
+        if (parseJson.totalCount > 0) {
+            ArrayList tests = parseJson.byType.AUTO
+            def patternMethod = ~/(?<=method:)([\w]+)/
+            def patternClass = ~/(?<=class:)(.*?)(?=])/
+
+            for (String item : tests) {
+                def matchMethod = (item =~ patternMethod)
+                def matchClass = (item =~ patternClass)
+                if (matchClass && matchMethod) {
+                    test2run.add(matchClass.group(1) + "." + matchMethod.group(1))
+                }
             }
         }
+    } catch (Exception ignored) {
     }
     return test2run
 }

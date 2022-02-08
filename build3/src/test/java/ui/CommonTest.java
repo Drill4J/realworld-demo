@@ -9,33 +9,39 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
+import java.util.*;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$x;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CommonTest extends BaseTest {
+public class CommonTest extends BaseSetup {
 
-    private final int sleepTime = 15_000;
+    private final int sleepTime = 2_000;
 
-    @Order(1)
     @Test
     public void registerNewUser() {
+        logout();
+        String user = UUID.randomUUID() + "user";
+        String email = UUID.randomUUID() + "@user.user";
         $(By.partialLinkText("Sign up")).click();
         $x("//input[@ng-reflect-name='username']").sendKeys(user);
         $x("//input[@ng-reflect-name='email']").sendKeys(email);
         $x("//input[@ng-reflect-name='password']").sendKeys(password);
         $x("//input[@ng-reflect-name='phone']").sendKeys("+1000000000");
         $x("//button[text()=' Sign up ']").click();
-        $x("//a[@href='/profile/test']").shouldHave(text(user));
+        $x("//a[@href='/profile/" + user + "']").shouldHave(text(user));
+        logout();
+        login();
         Selenide.clearBrowserCookies();
         Selenide.clearBrowserLocalStorage();
     }
 
-    @Order(2)
     @Test
     public void loginUser() {
+        logout();
         $x("//a[@href='/login']").click();
         $x("//input[@ng-reflect-name='email']").sendKeys(email);
         $x("//input[@ng-reflect-name='password']").sendKeys(password);
@@ -44,7 +50,6 @@ public class CommonTest extends BaseTest {
         $x("//a[@href='/profile/test']").shouldHave(text(user));
     }
 
-    @Order(3)
     @Test
     public void editUser() {
         $x("//a[@href='/settings']").click();
@@ -57,35 +62,35 @@ public class CommonTest extends BaseTest {
                 .shouldBe(visible);
     }
 
-    @Order(4)
     @Test
     public void createNewArticle() {
+        String heisenbug = "Heisenbug" + UUID.randomUUID();
         $x("//a[@href='/editor']").click();
-        $x("//input[@ng-reflect-name='title']").sendKeys("Heisenbug");
+        $x("//input[@ng-reflect-name='title']").sendKeys(heisenbug);
         $x("//input[@ng-reflect-name='description']").sendKeys("Piter 2021");
         $x("//textarea[@ng-reflect-name='body']").sendKeys("Drill is cool!");
         $x("//input[@placeholder='Enter tags']").sendKeys("drill");
         $x("//button[text()=' Publish Article ']").click();
-        $x("//div[@class='container']/h1").shouldHave(Condition.exactText("Heisenbug"));
+        $x("//div[@class='container']/h1").shouldHave(Condition.exactText(heisenbug));
     }
 
-    @Order(5)
+
     @Test
     public void editArticle() {
         $x("//a[text()=' Global Feed ']").click();
-        $x("//a[@href='/article/heisenbug']").click();
+        $x("//a[@href='/article/test-article']").click();
         $x("//a[text()=' Edit Article ']").click();
         $x("//textarea[@ng-reflect-name='body']").sendKeys(" We would appreciate any feedback.");
         $x("//button[text()=' Publish Article ']").click();
-        $x("//p[contains(.,'Drill is cool! We would appreciate any feedback.')]")
+        $x("//p[contains(.,'Text We would appreciate any feedback.')]")
                 .shouldBe(Condition.visible);
     }
 
-    @Order(6)
+
     @Test
     public void addComment() {
         $x("//a[text()=' Global Feed ']").click();
-        $x("//a[@href='/article/heisenbug']").click();
+        $x("//a[@href='/article/test-article']").click();
         $x("//textarea[@placeholder='Write a comment...']").sendKeys("Does drill support MacOS?");
         $x("//input[@ng-reflect-name='subtitle']").sendKeys("final comment");
         $x("//button[text()=' Post Comment ']").click();
@@ -93,43 +98,37 @@ public class CommonTest extends BaseTest {
                 .shouldBe(Condition.visible);
     }
 
-    @Order(7)
     @Test
     public void deleteComment() {
         $x("//a[text()=' Global Feed ']").click();
-        $x("//a[@href='/article/heisenbug']").click();
+        $x("//a[@href='/article/test-article']").click();
         $x("//div[@class='card']//i[@class='ion-trash-a']").click();
-        $x("//p[contains(.,'Does drill support MacOS?')]")
-                .shouldBe(Condition.visible);
     }
 
-    @Order(8)
     @Test
     public void hugeTest_1() throws InterruptedException {
         $x("//a[text()=' Global Feed ']").click();
         Thread.sleep(sleepTime);
     }
 
-    @Order(9)
     @Test
     public void hugeTest_2() throws InterruptedException {
         $x("//a[text()=' Global Feed ']").click();
         Thread.sleep(sleepTime);
     }
 
-    @Order(10)
     @Test
     public void hugeTest_3() throws InterruptedException {
         $x("//a[text()=' Global Feed ']").click();
         Thread.sleep(sleepTime);
     }
 
-    @Order(11)
     @Test
     public void hugeTest_4() throws InterruptedException {
         $x("//a[text()=' Global Feed ']").click();
         Thread.sleep(sleepTime);
     }
+
     @Order(12)
     @Test
     public void hugeTest_5() throws InterruptedException {
@@ -138,7 +137,6 @@ public class CommonTest extends BaseTest {
     }
 
 
-    @Order(14)
     @Test
     public void toggleHeart() {
         $x("//a[text()=' Global Feed ']").click();
@@ -146,23 +144,21 @@ public class CommonTest extends BaseTest {
         $x("//app-favorite-button[contains(.,'1')]").shouldBe(Condition.visible);
     }
 
-    @Order(15)
     @Test
     public void deleteArticle() {
         $x("//a[text()=' Global Feed ']").click();
-        $x("//a[@href='/article/heisenbug']").click();
+        $x("//a[@href='/article/delete']").click();
         $x("//button[contains(.,' Delete Article ')]").click();
         $x("//a[text()=' Global Feed ']").click();
-        $x("//a[@href='/article/heisenbug']").shouldNotBe(Condition.visible);
+        $x("//a[@href='/article/delete']").shouldNotBe(Condition.visible);
     }
 
-    @Order(16)
     @Test
     public void logoutUser() {
         $x("//a[@href='/profile/test']").click();
         $x("//a[@href='/settings']").click();
         $x("//button[text()=' Or click here to logout. ']").click();
-        $x("//a[@href='/profile/test']").shouldNotBe(visible);
+        login();
     }
 
 }
