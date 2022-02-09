@@ -1,36 +1,18 @@
 package ui;
 
-import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.Selenide;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import com.codeborne.selenide.*;
+import org.junit.jupiter.api.*;
+import org.openqa.selenium.*;
 
 import java.util.*;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$x;
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CommonTest extends BaseSetup {
 
-    private final int sleepTime = 2_000;
-
-    @Test
-    public void editUser() {
-        $x("//a[@href='/settings']").click();
-        $x("//input[@ng-reflect-name='image']").sendKeys(Keys.CONTROL + "a");
-        $x("//input[@ng-reflect-name='image']")
-                .sendKeys("https://avatars.githubusercontent.com/u/45690995?s=200&v=4");
-        $x("//textarea[@ng-reflect-name='bio']").sendKeys("Drill profile");
-        $x("//button[text()=' Update Settings ']").click();
-        $x("//p[contains(.,'Drill profile')]")
-                .shouldBe(visible);
-    }
+    private final int sleepTime = 3_000;
 
     @Test
     public void createNewArticle() {
