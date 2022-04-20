@@ -31,7 +31,7 @@ services:
     environment:
       - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
 
 volumes:
   agent-files:

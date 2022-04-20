@@ -21,7 +21,7 @@ services:
     image: mongo:3.4
     hostname: mongo
     ports:
-      - '28017:27017'
+      - '127.0.0.1:28017:27017'
 
   jsagent:
     image: drill4j/js-agent:${JS_AGENT_VERSION}
