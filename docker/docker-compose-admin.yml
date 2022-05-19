@@ -56,7 +56,7 @@ services:
     networks:
       - drill4j-dev-network
 
-  jsagent:
+  js-agent:
     image: drill4j/js-agent:${JS_AGENT_VERSION}
     container_name: jsagent
     hostname: jsagent
@@ -92,7 +92,7 @@ services:
   agent-files:
     image: drill4j/java-agent:${JAVA_AGENT_VERSION}
     volumes:
-      - agent-files:/java-agent
+      - agent-files:/data
     networks:
       - drill4j-dev-network
 
