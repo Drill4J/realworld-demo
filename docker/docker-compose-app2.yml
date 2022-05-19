@@ -3,7 +3,8 @@ version: '3'
 services:
 
   realworld-frontend:
-    image: drill4j/real-world-angular:java-and-js-coverage-0.2.0
+    # image: drill4j/real-world-angular:java-and-js-coverage-0.2.0
+    image: drill4j/real-world-angular:new-0.2.0
     environment:
       DRILL_JS_AGENT_HOST: ${DRILL_JS_AGENT_HOST}
       DRILL_JS_AST_PARSER_VERSION: ${DRILL_JS_AST_PARSER_VERSION}
@@ -19,7 +20,7 @@ services:
     ports:
       - "${REALWORLD_API_PORT}:8080"
     environment:
-      - "JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${DRILL_ADMIN_ADDRESS}:8090,agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},buildVersion=0.2.0"
+      - "JAVA_TOOL_OPTIONS=-agentpath:/data/libdrill_agent.so=drillInstallationDir=/data,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},buildVersion=0.2.0"
     depends_on:
       - db
     volumes:
