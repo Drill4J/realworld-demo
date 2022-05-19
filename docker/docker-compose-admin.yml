@@ -101,3 +101,6 @@ volumes:
   drill-data:
   drill-data-pg:
   drill-data-js-agent:
+
+networks:
+  drill4j-dev-network:
