@@ -14,7 +14,6 @@ services:
 
   drill-admin:
     image: drill4j/admin:${BACK_VERSION}
-    container_name: drill-admin
     environment:
       - TEST2CODE_PLUGIN_VERSION=${TEST2CODE_PLUGIN_VERSION}
       - JAVA_TOOL_OPTIONS="-Dplugin.feature.drealtime=true"
@@ -58,8 +57,6 @@ services:
 
   js-agent:
     image: drill4j/js-agent:${JS_AGENT_VERSION}
-    container_name: jsagent
-    hostname: jsagent
     ports:
       - '8092:8092'
     environment:
