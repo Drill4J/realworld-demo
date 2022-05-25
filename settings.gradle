@@ -2,6 +2,7 @@ pluginManagement {
     repositories {
         mavenCentral()
         maven { url 'https://drill4j.jfrog.io/artifactory/drill' }
+        maven { url 'https://oss.jfrog.org/artifactory/oss-release-local' }
     }
 }
 

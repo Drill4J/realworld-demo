@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.epam.drill.agent.runner.autotest' version '0.2.3'
+    id 'com.epam.drill.agent.runner.autotest' version '0.2.2'
 }
 
 group 'com.epam'
@@ -23,10 +23,11 @@ allprojects {
     }
 
     drill {
-        version = "0.16.2-js-coverage"
         adminHost = "localhost"
         groupId = "realworld-app"
         adminPort = 8090
+        agentPath = file("../mingwX64-0.16.2-js-coverage/autoTestAgent.dll")
+        runtimePath = file("../mingwX64-0.16.2-js-coverage")
         additionalParams = [
                 "dispatcherUrl": "localhost:5003",
                 "agentUrl"     : "localhost:8080"
