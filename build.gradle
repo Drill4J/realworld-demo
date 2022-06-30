@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.epam.drill.agent.runner.autotest' version '0.2.3'
+    id 'com.epam.drill.agent.runner.autotest' version '0.3.3'
 }
 
 group 'com.epam'
@@ -23,13 +23,14 @@ allprojects {
     }
 
     drill {
-        version = "0.16.2-js-coverage"
+        version = "0.22.1"
         adminHost = "localhost"
         groupId = "realworld-app"
         adminPort = 8090
         additionalParams = [
-                "dispatcherUrl": "localhost:5003",
-                "agentUrl"     : "localhost:8080"
+            "devToolsProxyAddress": "localhost:8093",
+            "withJsCoverage": true,
         ]
+        logLevel = com.epam.drill.agent.runner.LogLevels.DEBUG
     }
 }
