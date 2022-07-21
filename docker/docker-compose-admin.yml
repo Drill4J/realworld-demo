@@ -11,6 +11,9 @@ services:
       UI_PLUGINS_URLS: 'test2code#https://cdn.jsdelivr.net/npm/@drill4j/test2code-ui@${TEST2CODE_UI_VERSION}/dist/Drill4J-test-to-code.js'
     networks:
       - drill4j-dev-network
+    depends_on:
+      drill-admin:
+        condition: service_healthy
 
   drill-admin:
     image: drill4j/admin:${BACK_VERSION}
@@ -26,6 +29,11 @@ services:
       - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
       - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
       # - LOG_MESSAGE_MAX_LENGTH=2000
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:8090" ]
+      interval: 1s
+      timeout: 3s
+      retries: 30
     ports:
       - 8090:8090
       - 6006:5006
@@ -74,6 +82,9 @@ services:
       - drill-data-js-agent:/usr/src/app/js-agent-data
     networks:
       - drill4j-dev-network
+    depends_on:
+      drill-admin:
+        condition: service_healthy
 
   devtools-proxy:
     image: drill4j/devtools-proxy:${DEVTOOLS_PROXY_VERSION}
