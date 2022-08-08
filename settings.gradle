@@ -1,7 +1,6 @@
 pluginManagement {
     repositories {
         mavenCentral()
-        maven { url 'https://drill4j.jfrog.io/artifactory/drill' }
     }
 }
 
