@@ -1,10 +1,8 @@
 #! /bin/bash
 
-echo '___Start Drill admin___'
+echo 'Starting Drill4J services...'
 docker-compose -f docker/docker-compose-admin.yml up -d
-sleep 5
-echo '___Start RealWorld App Angular+Spring___'
+echo 'Starting example application - RealWorld App Angular + Spring'
 docker-compose -f docker/docker-compose-app.yml up -d
-sleep 20
-echo 'App has been started on http://localhost:8080'
-echo 'Lets start to use Drill on http://localhost:8091'
+echo 'Drill4J Admin Panel is available at http://localhost:8091'
+echo 'Example application is available at http://localhost:8080 (wait a few seconds for it to become available)'

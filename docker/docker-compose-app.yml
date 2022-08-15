@@ -4,13 +4,6 @@ services:
 
   realworld-frontend:
     image: drill4j/real-world-angular:java-and-js-coverage-0.8.0-build.1
-    environment:
-      DRILL_JS_AGENT_HOST: ${DRILL_JS_AGENT_HOST}
-      DRILL_JS_PARSER_VERSION: ${DRILL_JS_PARSER_VERSION}
-      DRILL_JS_AGENT_AGENT_ID: ${DRILL_JS_AGENT_AGENT_ID}
-      DRILL_JS_AGENT_GROUP_ID: ${DRILL_GROUP_ID}
-      REALWORLD_FRONTEND_BUILD_VERSION: 0.1.0
-      REALWORLD_API_ADDRESS: ${REALWORLD_API_ADDRESS}
     ports:
       - "${REALWORLD_FRONTEND_PORT}:80"
     networks:
