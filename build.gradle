@@ -23,14 +23,14 @@ allprojects {
     }
 
     drill {
-        version = "0.22.2-selenium-4-support.9"
+        version = "0.22.2-selenium-4-support.10"
         adminHost = "localhost"
         groupId = "realworld-app"
         adminPort = 8090
         additionalParams = [
             "devToolsProxyAddress": "localhost:8093",
             "withJsCoverage": true,
-            "devtoolsAddressReplaceLocalhost": "localhost",
+            "devtoolsAddressReplaceLocalhost": "host.docker.internal",
         ]
     }
 }

@@ -89,13 +89,15 @@ services:
 
   devtools-proxy:
     image: drill4j/devtools-proxy:${DEVTOOLS_PROXY_VERSION}
+    ports:
+      - "8093:8080"
     environment:
-      PORT: 8093
       DEBUG: 'drill:*'
       DEBUG_COLORS: 'true'
       FORCE_COLOR: '3'
       DEBUG_LOG_LEVEL: '2'
-    network_mode: "host"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   agent-files:
     image: drill4j/java-agent:${JAVA_AGENT_VERSION}
