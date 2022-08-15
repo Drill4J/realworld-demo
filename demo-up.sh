@@ -2,6 +2,7 @@
 
 echo 'Starting Drill4J services...'
 docker-compose -f docker/docker-compose-admin.yml up -d
+sleep 5 # workaround for test2code plugin not being loaded yet
 echo 'Starting example application - RealWorld App Angular + Spring'
 docker-compose -f docker/docker-compose-app.yml up -d
 echo 'Drill4J Admin Panel is available at http://localhost:8091'
