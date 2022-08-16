@@ -23,7 +23,7 @@ allprojects {
     }
 
     drill {
-        version = "0.22.2-selenium-4-support.10"
+        version = "0.22.2"
         adminHost = "localhost"
         groupId = "realworld-app"
         adminPort = 8090
