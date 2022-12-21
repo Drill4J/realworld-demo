@@ -13,13 +13,14 @@ services:
     image: drill4j/real-world-spring-api:java-and-js-coverage-0.1.0
     ports:
       - "${REALWORLD_API_PORT}:8080"
+      - 6007:5007
     environment:
       - "ACCESS_CONTROL_ALLOW_ORIGIN=http://localhost:8080"
-      - "JAVA_TOOL_OPTIONS=-agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},buildVersion=0.1.0"
+      - "JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5007 -agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},buildVersion=0.1.0,logLevel=TRACE"
     depends_on:
       - db
     volumes:
-      - agent-files:/data
+      - /Users/mac/Documents/Work-Projects/docker:/data
     entrypoint: [ "java", "-jar","/spring-boot-realworld-example-app-0.0.1-SNAPSHOT.jar" ]
     networks:
       - drill4j-dev-network
