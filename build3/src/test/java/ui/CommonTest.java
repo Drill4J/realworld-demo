@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CommonTest extends BaseSetup {
 
-    private final int sleepTime = 3_000;
+    private final int sleepTime = 1;
 
     @Test
     public void registerNewUser() {
