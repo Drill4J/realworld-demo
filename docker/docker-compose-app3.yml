@@ -3,7 +3,7 @@ version: '3'
 services:
 
   realworld-frontend:
-    image: drill4j/real-world-angular:java-and-js-coverage-0.8.0-build.3
+    image: drill4j/real-world-angular:java-and-js-coverage-0.8.0-build.2
     environment:
       DRILL_JS_AGENT_HOST: ${DRILL_JS_AGENT_HOST}
       DRILL_JS_PARSER_VERSION: ${DRILL_JS_PARSER_VERSION}
