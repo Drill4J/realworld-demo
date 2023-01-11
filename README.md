@@ -45,7 +45,7 @@ The demo is based on [RealWorld example apps](https://codebase.show/projects/rea
 1. Run
 
     ```shell
-    ./gradlew clean :build1:test
+     ./gradlew clean :build1:test
     ```
 
 2. Wait for tests to complete
@@ -72,7 +72,7 @@ The demo is based on [RealWorld example apps](https://codebase.show/projects/rea
 1. Run tests by
 
     ```shell
-    ./gradlew clean :build2:test2run
+    ./gradlew clean :build2:test
     ```
 
 2. Wait for tests to complete
@@ -97,7 +97,7 @@ The demo is based on [RealWorld example apps](https://codebase.show/projects/rea
 1. Run
 
     ```shell
-    ./gradlew clean :build3:test2run
+    ./gradlew clean :build3:test
     ```
 
 2. Wait for tests to complete
