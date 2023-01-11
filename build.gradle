@@ -19,7 +19,7 @@ allprojects {
         implementation 'io.rest-assured:rest-assured:4.3.3'
         implementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
         runtimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-        compile 'com.codeborne:selenide:5.19.0'
+        implementation 'com.codeborne:selenide:5.19.0'
     }
 
     drill {
