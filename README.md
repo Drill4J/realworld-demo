@@ -81,29 +81,6 @@ The demo is based on [RealWorld example apps](https://codebase.show/projects/rea
 
 4. Finish both scopes
 
-
-### Deploy the **3-rd** application build
-
-1. Deploy the 2-nd application build
-
-    ```shell
-    ./demo-deploy-build3.sh
-    ```
-
-2. Again, wait for build notification to appear in the (bell in the top-right corner must have a red circle next to it)
-
-### Run tests for the **3-rd** application build
-
-1. Run
-
-    ```shell
-    ./gradlew clean :build3:test2run
-    ```
-
-2. Wait for tests to complete
-
-3. Open [Drill4J Admin Panel](http://localhost:8091) to see the result
-
 ## Teardown
 
 1. To remove demo setup run
