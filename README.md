@@ -63,9 +63,9 @@ The demo is based on [RealWorld example apps](https://codebase.show/projects/rea
     ./demo-deploy-build2.sh
     ```
 
-2. Wait for build notification to appear (click the Bell icon in the top-right corner of the page)
+2. Wait for build notification to appear (click the Bell icon in the bottom-left corner of the page)
 
-3. **Optional**: Click on the "Dashboard" button inside notification to explore the new build. See how Drill4J detected new, modified and deleted methods
+3. **Optional**: Click on the "Go to Build" button inside notification to explore the new build. See how Drill4J detected new, modified and deleted methods
 
 ### Run tests for the **2-nd** application build
 
