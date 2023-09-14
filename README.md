@@ -1,5 +1,15 @@
 # Drill4J: Java + JavaScript setup
 
+> WARNING Known issue:
+>
+> Currently autotests _in this demo_ are not working properly due issue not related to Drill4J. (Driver incompatiblity with the new Chrome)
+>
+> `org.openqa.selenium.SessionNotCreatedException: session not created: This version of ChromeDriver only supports Chrome version 114`
+>
+> We are working on the fix. Thank you!
+>
+> Meanwhile, you can check out our [conference talk](https://www.youtube.com/watch?v=U6vOJnzbReM) to see Drill4J in action
+
 This repository demonstrates how Drill4J enables various metrics collection (including coverage) for both backend and frontend applications across multiple builds
 
 The demo is based on [RealWorld example apps](https://codebase.show/projects/realworld)
