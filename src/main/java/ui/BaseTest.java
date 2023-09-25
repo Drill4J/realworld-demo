@@ -21,6 +21,8 @@ abstract class BaseTest {
 
     @BeforeAll
     public static void beforeAll() {
+        System.setProperty("webdriver.chrome.driver", "..\\chrome-driver\\chromedriver.exe");
+        Configuration.browserBinary = "..\\chrome-binary\\chrome-win\\chrome.exe";
         open(baseUrl);
     }
 
