@@ -35,14 +35,6 @@ allprojects {
     }
 }
 
-// 0. clean up old files and register that task
-tasks.register('cleanUpChromeFolders', Delete) {
-    delete file('./chrome-binary'),
-            file('./chrome-driver')
-}
-tasks.named("clean") {
-    dependsOn('cleanUpChromeFolders')
-}
 
 // 1. create folders
 tasks.register('prepareDirs') {
@@ -57,12 +49,12 @@ tasks.register('prepareDirs') {
 tasks.register('downloadChromeDriver', Exec) {
     dependsOn('prepareDirs')
     commandLine 'curl', '-L', '-o', './chrome-driver/chromedriver_win32.zip',
-            'https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_win32.zip'
+            project.findProperty('chromeDriverUrl')
 }
 tasks.register('downloadChromeBinary', Exec) {
     dependsOn('prepareDirs')
     commandLine 'curl', '-L', '-o', './chrome-binary/chrome-win.zip',
-            'https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F1148119%2Fchrome-win.zip?generation=1684876145913156&alt=media'
+            project.findProperty('chromeBinaryUrl')
 }
 
 // 3. unzip files
