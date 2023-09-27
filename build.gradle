@@ -28,19 +28,15 @@ allprojects {
         groupId = "realworld-app"
         adminPort = 8090
         additionalParams = [
-                "devToolsProxyAddress"           : "localhost:8093",
-                "withJsCoverage"                 : true,
+                "devToolsProxyAddress": "localhost:8093",
+                "withJsCoverage": true,
                 "devtoolsAddressReplaceLocalhost": "host.docker.internal",
         ]
     }
 }
 
-
-// 4. delete zip files
-tasks.register('cleanUp', Delete) {
-    dependsOn('unzipChrome', 'unzipChromeDriver')
-    delete './chrome-driver/chromedriver_win32.zip',
-            './chromium-binary/chrome-win.zip'
+tasks.named('assemble') {
+    dependsOn('downloadChromium', 'downloadChromeDriver')
 }
 
 tasks.register("downloadChromium") {
@@ -83,8 +79,4 @@ tasks.register("downloadChromeDriver") {
         // 4. remove zip file
         delete './chrome-driver/chromedriver_win32.zip'
     }
-}
-
-tasks.named('assemble') {
-    dependsOn('downloadChromium', 'downloadChromeDriver')
 }
