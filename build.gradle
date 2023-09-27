@@ -35,9 +35,6 @@ allprojects {
     }
 }
 
-tasks.named('assemble') {
-    dependsOn('downloadChromium', 'downloadChromeDriver')
-}
 
 tasks.register("downloadChromium") {
     doFirst {
