@@ -28,9 +28,55 @@ allprojects {
         groupId = "realworld-app"
         adminPort = 8090
         additionalParams = [
-            "devToolsProxyAddress": "localhost:8093",
-            "withJsCoverage": true,
-            "devtoolsAddressReplaceLocalhost": "host.docker.internal",
+                "devToolsProxyAddress": "localhost:8093",
+                "withJsCoverage": true,
+                "devtoolsAddressReplaceLocalhost": "host.docker.internal",
         ]
+    }
+}
+
+tasks.named('assemble') {
+    dependsOn('downloadChromium', 'downloadChromeDriver')
+}
+
+tasks.register("downloadChromium") {
+    doFirst {
+        // 1. Ensure dir exists
+        mkdir "./chromium-binary/"
+        // 2. Download
+        exec {
+            commandLine 'curl', '-L', '-o', './chromium-binary/chrome-win.zip',
+                    project.findProperty('chromeBinaryUrl')
+        }
+    }
+    doLast {
+        // 3. Unzip
+        copy {
+            from zipTree { './chromium-binary/chrome-win.zip' }
+            into './chromium-binary/'
+        }
+        // 4. remove zip file
+        delete './chromium-binary/chrome-win.zip'
+    }
+}
+
+tasks.register("downloadChromeDriver") {
+    doFirst {
+        // 1. Ensure dir exists
+        mkdir "./chrome-driver/"
+        // 2. Download
+        exec {
+            commandLine 'curl', '-L', '-o', './chrome-driver/chromedriver_win32.zip',
+                    project.findProperty('chromeDriverUrl')
+        }
+    }
+    doLast {
+        // 3. Unzip
+        copy {
+            from zipTree { './chrome-driver/chromedriver_win32.zip' }
+            into './chrome-driver/'
+        }
+        // 4. remove zip file
+        delete './chrome-driver/chromedriver_win32.zip'
     }
 }
