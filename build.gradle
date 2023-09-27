@@ -28,46 +28,13 @@ allprojects {
         groupId = "realworld-app"
         adminPort = 8090
         additionalParams = [
-            "devToolsProxyAddress": "localhost:8093",
-            "withJsCoverage": true,
-            "devtoolsAddressReplaceLocalhost": "host.docker.internal",
+                "devToolsProxyAddress"           : "localhost:8093",
+                "withJsCoverage"                 : true,
+                "devtoolsAddressReplaceLocalhost": "host.docker.internal",
         ]
     }
 }
 
-
-// 1. create folders
-tasks.register('prepareDirs') {
-    mustRunAfter clean
-    doFirst {
-        mkdir "./chromium-binary/"
-        mkdir "./chrome-driver/"
-    }
-}
-
-// 2. download driver and binary
-tasks.register('downloadChromeDriver', Exec) {
-    dependsOn('prepareDirs')
-    commandLine 'curl', '-L', '-o', './chrome-driver/chromedriver_win32.zip',
-            project.findProperty('chromeDriverUrl')
-}
-tasks.register('downloadChromiumBinary', Exec) {
-    dependsOn('prepareDirs')
-    commandLine 'curl', '-L', '-o', './chromium-binary/chrome-win.zip',
-            project.findProperty('chromeBinaryUrl')
-}
-
-// 3. unzip files
-def registerUnzipTask(taskName, src, dest) {
-    tasks.register(taskName, Copy) {
-        dependsOn('downloadChromiumBinary', 'downloadChromeDriver')
-        from zipTree(src)
-        into dest
-    }
-}
-
-registerUnzipTask('unzipChrome', './chromium-binary/chrome-win.zip', './chromium-binary/')
-registerUnzipTask('unzipChromeDriver', './chrome-driver/chromedriver_win32.zip', './chrome-driver/')
 
 // 4. delete zip files
 tasks.register('cleanUp', Delete) {
@@ -76,7 +43,48 @@ tasks.register('cleanUp', Delete) {
             './chromium-binary/chrome-win.zip'
 }
 
-// 5. register tasks
+tasks.register("downloadChromium") {
+    doFirst {
+        // 1. Ensure dir exists
+        mkdir "./chromium-binary/"
+        // 2. Download
+        exec {
+            commandLine 'curl', '-L', '-o', './chromium-binary/chrome-win.zip',
+                    project.findProperty('chromeBinaryUrl')
+        }
+    }
+    doLast {
+        // 3. Unzip
+        copy {
+            from zipTree { './chromium-binary/chrome-win.zip' }
+            into './chromium-binary/'
+        }
+        // 4. remove zip file
+        delete './chromium-binary/chrome-win.zip'
+    }
+}
+
+tasks.register("downloadChromeDriver") {
+    doFirst {
+        // 1. Ensure dir exists
+        mkdir "./chrome-driver/"
+        // 2. Download
+        exec {
+            commandLine 'curl', '-L', '-o', './chrome-driver/chromedriver_win32.zip',
+                    project.findProperty('chromeDriverUrl')
+        }
+    }
+    doLast {
+        // 3. Unzip
+        copy {
+            from zipTree { './chrome-driver/chromedriver_win32.zip' }
+            into './chrome-driver/'
+        }
+        // 4. remove zip file
+        delete './chrome-driver/chromedriver_win32.zip'
+    }
+}
+
 tasks.named('assemble') {
-    dependsOn('prepareDirs', 'downloadChromeDriver', 'downloadChromiumBinary', 'unzipChrome', 'unzipChromeDriver', 'cleanUp')
+    dependsOn('downloadChromium', 'downloadChromeDriver')
 }
