@@ -54,16 +54,28 @@ cd realworld-java-and-js-coverage
     ./demo-up.sh
     ```
 
-    Wait for the script to launch services and download necessary dependencies
+    Wait for the script to launch services and download necessary dependencies.
+    __It may take a while__ depending on your internet connection (anywhere from 2 to 10 minutes)
 
-2. Open [Frontend Example Application](http://localhost:8080) and wait until it becomes available. You should see the following page
+    If you see no visible progress try pressing `Enter` key in terminal to force it to update
+
+    You should see the following output, when process is completed:
+
+    ```
+    Drill4J Admin Panel is available at http://localhost:8091
+    Example application is available at http://localhost:8080 (wait a few seconds for it to become available)
+    ```
+
+2. Open [Frontend Example Application](http://localhost:8080). You should see the following page
     ![realworld app](./img/image-6.png)
+
+    If you see that everything is ok. No actions required on your part here.
 
 3. Open [Drill4J Admin Panel](http://localhost:8091)
 
 4. You should be greeted with "Welcome to Drill4J" page and a login form. Press "Continue as guest (width admin rights)"
 
-    ![login form](image.png)
+    ![login form](./img/image.png)
 
 5. Close analytics form (it does not really matter wether you agree or not in the demo scenario)
 
@@ -76,7 +88,11 @@ cd realworld-java-and-js-coverage
 7. Sidebar area should expand and present you with a single `realworld-app` entry. Click the expand icon to see individual App Under Test components
     ![apps list](./img/image-3.png)
 
-8. Click on the `spring-realworld-backend` entry. You'll be navigated to the respective component overview page. Click on "Go to Plugin" button to get to the detailed dashboard.
+8. Click on the `spring-realworld-backend` entry.
+
+    ![realworld-backend](./img/image-18.png)
+
+    You'll be navigated to the respective component overview page. Click on "Go to Plugin" button to get to the detailed dashboard.
     ![realworld backend overview page](./img/image-4.png)
 
 9. You should see detailed dashboard view
