@@ -17,13 +17,13 @@ public class CommonTest extends BaseSetup {
     @Test
     public void createNewArticle() {
         $x("//a[@href='/editor']").click();
-        String heisenbug = "Heisenbug" + UUID.randomUUID();
-        $x("//input[@ng-reflect-name='title']").sendKeys(heisenbug);
-        $x("//input[@ng-reflect-name='description']").sendKeys("Piter 2021");
+        String articleTitle = "Drill4J" + UUID.randomUUID();
+        $x("//input[@ng-reflect-name='title']").sendKeys(articleTitle);
+        $x("//input[@ng-reflect-name='description']").sendKeys("Drill4J 2023");
         $x("//textarea[@ng-reflect-name='body']").sendKeys("Drill is cool!");
         $x("//input[@placeholder='Enter tags']").sendKeys("drill");
         $x("//button[text()=' Publish Article ']").click();
-        $x("//div[@class='container']/h1").shouldHave(Condition.exactText(heisenbug));
+        $x("//div[@class='container']/h1").shouldHave(Condition.exactText(articleTitle));
     }
 
     @Test
