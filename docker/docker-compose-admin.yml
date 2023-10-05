@@ -18,7 +18,6 @@ services:
   drill-admin:
     image: drill4j/admin:${BACK_VERSION}
     environment:
-      - DRILL_DEFAULT_PACKAGES=${DRILL_DEFAULT_PACKAGES}
       - DRILL_DB_PORT=5432
       - DRILL_AGENTS_SOCKET_TIMEOUT=6000
       - DRILL_DB_HOST=${POSTGRES_HOST}
