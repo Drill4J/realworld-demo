@@ -81,7 +81,11 @@ cd realworld-java-and-js-coverage
 
     ![analytics form](./img/image-1.png)
 
-6. You should see empty dashboard with "Select Agent" button. Press it.
+6. You should see empty dashboard with `"Select Agent"` button.
+
+    __IMPORTANT__: If you see `"Add agent"` button instead - wait a few more seconds for the Drill4J to detect application agents
+
+    Press "Select Agent" button.
 
     ![select agent button view](./img/image-2.png)
 
