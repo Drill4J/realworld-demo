@@ -3,6 +3,25 @@ import groovy.json.JsonSlurper
 
 static Set<String> suggestedTests() {
     println('suggestedTests...');
+    def token = ""
+    try {
+        final String loginUrl = "http://localhost:8091/api/login"
+        def baseUrl = new URL(loginUrl)
+        String response = ""
+        HttpURLConnection connection = (HttpURLConnection) baseUrl.openConnection();
+        connection.addRequestProperty("Accept", "application/json")
+        connection.with {
+            doOutput = true
+            requestMethod = 'POST'
+            response = content.text
+        }
+
+        def parseJson = new JsonSlurper().parseText(response)
+        token = "Bearer " + parseJson.token
+    } catch (Exception ex) {
+        println('Error occured while taking authorization token from Drill4J.');
+        ex.printStackTrace()
+    }
 
     Set<String> test2run = []
     try {
@@ -12,6 +31,7 @@ static Set<String> suggestedTests() {
         HttpURLConnection connection = (HttpURLConnection) baseUrl.openConnection();
         connection.addRequestProperty("Accept", "application/json")
         connection.addRequestProperty("Content-Type", "application/json")
+        connection.addRequestProperty("Authorization", token)
         connection.with {
             doOutput = true
             requestMethod = 'GET'
@@ -30,7 +50,8 @@ static Set<String> suggestedTests() {
         println('Recommended tests: ')
         println(test2run);
     } catch (Exception e) {
-        println ('Error occured while obtaining tests recommended by Drill4J.');
+        println('Error occured while obtaining tests recommended by Drill4J.');
+        e.printStackTrace()
     }
     return test2run
 }
