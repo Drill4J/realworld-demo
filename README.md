@@ -36,9 +36,9 @@ The demo is based on [RealWorld example apps](https://codebase.show/projects/rea
 
 2. Open [Frontend Example Application](http://localhost:8080) and wait until it becomes available
 
-3. Open [Drill4J Admin Panel](http://localhost:8091). Expand the group entry, then register both backend and frontend agent.
-
-      > There is no need to specify any parameters during the registration, just click through steps leaving everything as-is.
+3. Open [Drill4J Admin Panel](http://localhost:8091). Open the group with agents and wait for the agent's status 
+to change from the "Registering" state to the "Registered" state (a notable difference between the second status
+and the first one is the presence of a green checkmark next to the agent).
 
 ### Run tests for the **1-st** application build
 
