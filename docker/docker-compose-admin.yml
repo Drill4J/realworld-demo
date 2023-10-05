@@ -1,0 +1,116 @@
+version: '3'
+
+services:
+
+  admin-ui:
+    image: drill4j/admin-ui-root-config:${FRONT_VERSION}
+    ports:
+      - 8091:8080
+    environment:
+      WAIT_HOSTS: drill-admin:8090
+      UI_PLUGINS_URLS: 'test2code#https://cdn.jsdelivr.net/npm/@drill4j/test2code-ui@${TEST2CODE_UI_VERSION}/dist/Drill4J-test-to-code.js'
+    networks:
+      - drill4j-dev-network
+    depends_on:
+      drill-admin:
+        condition: service_healthy
+
+  drill-admin:
+    image: drill4j/admin:${BACK_VERSION}
+    environment:
+      - TEST2CODE_PLUGIN_VERSION=${TEST2CODE_PLUGIN_VERSION}
+      - JAVA_TOOL_OPTIONS="-Dplugin.feature.drealtime=true"
+      - LOG_LEVEL=debug
+      - DRILL_DEFAULT_PACKAGES=${DRILL_DEFAULT_PACKAGES}
+      - DRILL_DB_PORT=5432
+      - DRILL_AGENTS_SOCKET_TIMEOUT=6000
+      - DRILL_DB_HOST=${POSTGRES_HOST}
+      - DRILL_DB_NAME=${POSTGRES_DB}
+      - DRILL_DB_USER_NAME=${POSTGRES_USER}
+      - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
+      # - LOG_MESSAGE_MAX_LENGTH=2000
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:8090" ]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    ports:
+      - 8090:8090
+      - 6006:5006
+    networks:
+      - drill4j-dev-network
+    volumes:
+      - drill-data:/work
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:14.1
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - drill-data-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - drill4j-dev-network
+
+  js-agent:
+    image: drill4j/js-agent:${JS_AGENT_VERSION}
+    ports:
+      - '8092:8092'
+    environment:
+      APP_PORT: '8092'
+      PERF_MEASUREMENT_ENABLED: 'true'
+      PERF_DIFFS_ENABLED: 'true'
+      WAIT_HOSTS: drill-admin:8090
+      DRILL_ADMIN_PROTOCOL: 'ws'
+      DRILL_ADMIN_HOST: 'drill-admin:8090'
+      DEBUG: 'drill:*'
+      DEBUG_COLORS: 'true'
+      FORCE_COLOR: '3'
+      DEBUG_LOG_LEVEL: '4'
+    volumes:
+      - drill-data-js-agent:/usr/src/app/js-agent-data
+    networks:
+      - drill4j-dev-network
+    depends_on:
+      drill-admin:
+        condition: service_healthy
+
+  devtools-proxy:
+    image: drill4j/devtools-proxy:${DEVTOOLS_PROXY_VERSION}
+    ports:
+      - "8093:8080"
+    environment:
+      DEBUG: 'drill:*'
+      DEBUG_COLORS: 'true'
+      FORCE_COLOR: '3'
+      DEBUG_LOG_LEVEL: '2'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  agent-files:
+    image: drill4j/java-agent:${JAVA_AGENT_VERSION}
+    volumes:
+      - agent-files:/data
+    networks:
+      - drill4j-dev-network
+
+volumes:
+  agent-files:
+  drill-data:
+  drill-data-pg:
+  drill-data-js-agent:
+
+networks:
+  drill4j-dev-network:
