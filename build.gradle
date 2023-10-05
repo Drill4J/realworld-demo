@@ -12,10 +12,12 @@ allprojects {
         mavenCentral()
     }
 
+
+    apply plugin: 'java'
+    apply plugin: 'com.epam.drill.agent.runner.autotest'
+    apply from: rootProject.projectDir.path + "/test2run.gradle"
+
     dependencies {
-        apply plugin: 'java'
-        apply plugin: 'com.epam.drill.agent.runner.autotest'
-        apply from: rootProject.projectDir.path + "/test2run.gradle"
         implementation 'io.rest-assured:rest-assured:4.3.3'
         implementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
         runtimeOnly 'org.junit.jupiter:junit-jupiter-engine'
@@ -23,7 +25,7 @@ allprojects {
     }
 
     drill {
-        version = "0.22.2"
+        version = "0.22.4"
         adminHost = "localhost"
         groupId = "realworld-app"
         adminPort = 8090
