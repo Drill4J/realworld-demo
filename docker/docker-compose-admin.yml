@@ -26,7 +26,6 @@ services:
       - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
       - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
       - LOG_LEVEL=info
-      # - LOG_MESSAGE_MAX_LENGTH=2000
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8090" ]
       interval: 1s
@@ -34,6 +33,7 @@ services:
       retries: 30
     ports:
       - 8090:8090
+      - 8453:8453
     networks:
       - drill4j-dev-network
     depends_on:
@@ -93,8 +93,11 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  # The sole function of this container is to download agent files according to version specified in AGENT_VERSION env variable
   agent-files:
-    image: drill4j/java-agent:${JAVA_AGENT_VERSION}
+    image: drill4j/java-agent:0.8.0-38
+    environment:
+      - AGENT_VERSION=${JAVA_AGENT_VERSION} 
     volumes:
       - agent-files:/data
     networks:
@@ -102,7 +105,6 @@ services:
 
 volumes:
   agent-files:
-  drill-data:
   drill-data-pg:
   drill-data-js-agent:
 
