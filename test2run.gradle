@@ -50,7 +50,7 @@ static Set<String> suggestedTests() {
         println('Recommended tests: ')
         println(test2run);
     } catch (Exception e) {
-        println('Error occured while obtaining tests recommended by Drill4J.');
+        println('Error occured while obtaining tests recommended by Drill4J. All tests will be launched instead');
         e.printStackTrace()
     }
     return test2run
