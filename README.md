@@ -68,6 +68,12 @@ cd realworld-java-and-js-coverage
     Example application is available at http://localhost:8080 (wait a few seconds for it to become available)
     ```
 
+    > If your internet connection is too slow example app start might fail.
+    > 
+    > Simply wait for script to finish downloading dependencies
+    > 
+    > And then run `./demo-up.sh` again 
+
 2. Open [Frontend Example Application](http://localhost:8080). You should see the following page
     ![realworld app](./img/image-6.png)
 
