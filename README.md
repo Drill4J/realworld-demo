@@ -16,7 +16,7 @@ __WARNING__: This demo works only on Windows 10/11
 __KNOWN ISSUE__: [Drill4J Admin Panel](http://localhost:8091) may display incomplete data if it is opened in multiple tabs at the same time. Please close previous tabs if you open new ones (i.e. when using direct links from this guide)
 
 __NOTICE__: This is not an installation guide. It is created with needs of demo in mind, hence some topics left untouched (notably - proper CI/CD integration). 
- For the installation instructions, please refer to the documentation on [Drill4J Website](https://drill4j.github.io/docs/installation/drill-admin) 
+ For the installation instructions, please refer to the documentation on [Drill4J Website](https://drill4j.github.io/docs/installation/setup) 
 
 ## Setup overview
 
@@ -27,7 +27,7 @@ __NOTICE__: This is not an installation guide. It is created with needs of demo 
 
 3. This data is sent to [Drill4J Backend Admin](http://localhost:8091) that tracks changes in application and produces metrics (_Coverage_, _Risks_, _Recommended tests_)  
 
-4. _Recommended tests_ are fed back into test automation scripts via [recommendedTests.gradle](./recommendedTests.gradle) task to enable execution of only necessary tests
+4. _Recommended tests_ are fed back into test automation scripts via [gradle task](./test2run.gradle) to enable execution of only necessary tests
 
 5. [Drill4J Admin Panel](http://localhost:8091) provides an overview of collected data and metrics.
 
@@ -128,12 +128,16 @@ It is time to launch our tests. Since this demo does not have "real" CI/CD envir
 4. Press "Finish scope" button
     ![finish scope button](./img/image-8.png)
 
-5. Modal window with test run statistics will pop up. Press "Finish scope" to save collected data
+5. Modal window with test run statistics will pop up. Press "Finish scope" inside modal to save collected data
     ![finish scope modal](./img/image-9.png)
 
     This action is usually automated with call from CI/CD scripts
 
-6. Navigate to `angular-realworld-frontend` [dashboard page](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.1.0/overview?activeTab=methods)
+6. Navigate to `angular-realworld-frontend` [dashboard page](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.1.0/overview?activeTab=methods) and save data for frontend app as well
+
+    Press "Finish scope"
+
+    Confirm the modal by pressing "Finish scope" button inside modal
 
 ### Analyze collected metrics
 
@@ -176,7 +180,7 @@ It is time to use power of _Recommended Test_ feature. You'll see how Drill4J al
 
 3. Once again, get back to `spring-realworld-backend` [dashboard page](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.1.0/overview?activeTab=methods) and `angular-realworld-frontend` [dashboard page](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.1.0/overview?activeTab=methods)
 
-4. Take a look at _Risks_ metric. Now press `Finish scope` button and see how number of _Risks_ decreases
+4. Take a look at _Risks_ metric. Now press `Finish scope` button, confirm modal window and see how number of _Risks_ decreases
 
     ![risks covered](./img/image-13.png)
 
@@ -210,7 +214,7 @@ It is time to use power of _Recommended Test_ feature. You'll see how Drill4J al
 
 This briefly covers features Drill4J provides for automation testing, but one have to remember Drill4J is not limited to UI Selenium tests.
 
-Drill4J also supports API tests, manual tests, unit tests (see full list of supported frameworks on [https://drill4j.github.io/docs](https://drill4j.github.io/)).
+Drill4J also supports API tests, manual tests, unit tests (see full list of supported frameworks in [Documentation](https://drill4j.github.io/docs/overview/why-drill4j)).
 
 In terms of platforms, Drill4J also provides .NET agent, besides Java and JavaScript capabilities demonstrated with this repo
 
@@ -218,7 +222,7 @@ __As told before__ this demo should not be used as installation guide. It is cra
 
 ## Manual testing
 
-If you would also like to try manual testing capabilities of Drill4J refer to [https://drill4j.github.io/docs](https://drill4j.github.io/) for information on how to install Browser Extension (for Chrome and Chromium-based browsers only)
+If you would also like to try manual testing capabilities of Drill4J refer to [Documentation](https://drill4j.github.io/docs/installation/setup-browser-extension) for information on how to install Browser Extension (for Chrome and Chromium-based browsers only)
 
 You can try Drill4J Browser Extension in action on [Realworld App](http://localhost:8080) page - try launching test sessiom with extension, click on the page, execute actions such as Sign up and Sign in and then see the results in Drill4J Admin Panel 
 
