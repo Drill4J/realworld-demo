@@ -1,6 +1,6 @@
 # Drill4J Demo
 
-This repository demonstrates how Drill4J introduces continuous feedback intro SDLC.
+This repository demonstrates how Drill4J introduces continuous feedback into SDLC and enables Test Gap and Test Impact Analytics.
 
 Drill4J Agents are integrated with both Java backend and JavaScript web app to provide metrics collected during E2E UI Selenium tests execution. (_Drill4J is not limited to e2e tests, these are emplyed here for the demo's sake_)
 
@@ -12,6 +12,8 @@ Features:
 3. _Recommended tests_ - get tests suggestions based on detected _Risks_. Minimize efforts on regression testing - find failures faster.
 
 __WARNING__: This demo works only on Windows 10/11
+
+__KNOWN ISSUE__: [Drill4J Admin Panel](http://localhost:8091) may display incomplete data if it is opened in multiple tabs at the same time. Please close previous tabs if you open new ones (i.e. when using direct links from this guide)
 
 __NOTICE__: This is not an installation guide. It is created with needs of demo in mind, hence some topics left untouched (notably - proper CI/CD integration). 
  For the installation instructions, please refer to the documentation on [Drill4J Website](https://drill4j.github.io/docs/installation/drill-admin) 
