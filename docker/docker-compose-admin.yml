@@ -28,7 +28,7 @@ services:
       - LOG_LEVEL=info
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8090" ]
-      interval: 1s
+      interval: 10s
       timeout: 3s
       retries: 30
     ports:
