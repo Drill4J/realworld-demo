@@ -1,7 +1,0 @@
-dependencies {
-    testImplementation(project(':'))
-}
-
-test {
-    useJUnitPlatform()
-}

@@ -1,9 +1,0 @@
-pluginManagement {
-    repositories {
-        mavenCentral()
-    }
-}
-
-rootProject.name = 'java-and-js-coverage'
-include 'build1'
-include 'build2'
