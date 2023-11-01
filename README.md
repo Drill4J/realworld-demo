@@ -27,7 +27,7 @@ __NOTICE__: This is not an installation guide. It is created with needs of demo 
 
 3. This data is sent to [Drill4J Backend Admin](http://localhost:8091) that tracks changes in application and produces metrics (_Coverage_, _Risks_, _Recommended tests_)  
 
-4. _Recommended tests_ are fed back into test automation scripts via [gradle task](./test2run.gradle) to enable execution of only necessary tests
+4. _Recommended tests_ are fed back into test automation scripts via [gradle task](groovy-script/test2run.groovy) to enable execution of only necessary tests
 
 5. [Drill4J Admin Panel](http://localhost:8091) provides an overview of collected data and metrics.
 
@@ -123,7 +123,7 @@ It is time to launch our tests. Since this demo does not have "real" CI/CD envir
 1. Run the following command
 
     ```shell
-    ./gradlew clean :build1:test
+      mvn clean test -pl build1
     ```
 
 2. Wait for the tests to be executed. It should take from 3 to 5 minutes. Once tests are done you'll see the following log:
@@ -179,7 +179,7 @@ It is time to use power of _Recommended Test_ feature. You'll see how Drill4J al
 1. Run tests by
 
     ```shell
-    ./gradlew clean :build2:test2run
+      mvn clean test -pl build2
     ```
 
 2. Wait for tests to complete
