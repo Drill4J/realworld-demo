@@ -8,6 +8,11 @@
     </parent>
     <artifactId>build1</artifactId>
     <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <drillAgentRunner.version>0.3.4</drillAgentRunner.version>
+        <drillAgentPlugin.version>0.21.1</drillAgentPlugin.version>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -18,18 +23,27 @@
                     <target>8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmavenplus</groupId>
+                <artifactId>gmavenplus-plugin</artifactId>
+                <version>1.11.0</version>
+                <executions>
+                    <execution>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <scripts>
+                                <script>${project.parent.basedir}.\test2run.groovy</script>
+                            </scripts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
-
-    <modelVersion>4.0.0</modelVersion>
-
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>com.epam</groupId>
             <artifactId>core</artifactId>
@@ -37,5 +51,43 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <id>drillStable</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>drill</id>
+                    <url>https://drill4j.jfrog.io/artifactory/drill</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.epam.drill.agent.runner</groupId>
+                        <artifactId>maven</artifactId>
+                        <version>${drillAgentRunner.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>autotest</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <drill>
+                                <version>${drillAgentPlugin.version}</version>
+                                <adminHost>localhost</adminHost>
+                                <adminPort>8090</adminPort>
+                                <logLevel>TRACE</logLevel>
+                                <logFile>target/drillLog.log</logFile>
+                            </drill>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
