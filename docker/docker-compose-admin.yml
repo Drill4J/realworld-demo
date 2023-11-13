@@ -25,7 +25,7 @@ services:
       - DRILL_DB_USER_NAME=${POSTGRES_USER}
       - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
       - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
-      - LOG_LEVEL=info
+      - LOG_LEVEL=trace
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8090" ]
       interval: 10s
