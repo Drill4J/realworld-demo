@@ -131,7 +131,7 @@ Now lets see metrics Drill4J has collected.
 
 Open the `spring-realworld-backend`'s [dashboard page](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.1.0/overview?activeTab=methods).
 
-1. First metric you see is the overall _Build coverage_ percentage - this indicates to which extent tests has covered our application. The percentage is calculated based on number of _probes_ - the special "counters" inserted by Drill4J agent into application in runtime. The single method will likely have a lot of those, so its a very granular metric.
+1. First metric you see is the overall _Build coverage_ percentage - this indicates to which extent tests have covered our application. The percentage is calculated based on number of _probes_ - the special "counters" inserted by Drill4J agent into application in runtime. The single method will likely have a lot of those, so its a very granular metric.
 
     ![build coverage percent metric](./img/image-build-coverage-percent.png)
 
