@@ -5,27 +5,34 @@ static Set<String> suggestedTests() {
     println('suggestedTests...');
     def token = ""
     try {
-        final String loginUrl = "http://localhost:8091/api/login"
+        final String loginUrl = "http://localhost:8090/api/sign-in"
         def baseUrl = new URL(loginUrl)
+        def payload = [
+            username: "user",
+            password: "user"
+        ]
         String response = ""
         HttpURLConnection connection = (HttpURLConnection) baseUrl.openConnection();
-        connection.addRequestProperty("Accept", "application/json")
+        connection.addRequestProperty("Content-Type", "application/json; charset=UTF-8")
         connection.with {
             doOutput = true
             requestMethod = 'POST'
+            outputStream.withWriter { writer ->
+                writer << new groovy.json.JsonBuilder(payload)
+            }
             response = content.text
         }
 
         def parseJson = new JsonSlurper().parseText(response)
-        token = "Bearer " + parseJson.token
+        token = "Bearer " + parseJson.data.token
     } catch (Exception ex) {
-        println('Error occured while taking authorization token from Drill4J.');
+        println('Failed to obtain authorization token from Drill4J Admin Backend API');
         ex.printStackTrace()
     }
 
     Set<String> test2run = []
     try {
-        final String url = "http://localhost:8091/api/groups/realworld-app/plugins/test2code/data/tests-to-run"
+        final String url = "http://localhost:8090/api/groups/realworld-app/plugins/test2code/data/tests-to-run"
         def baseUrl = new URL(url)
         String response = ""
         HttpURLConnection connection = (HttpURLConnection) baseUrl.openConnection();
