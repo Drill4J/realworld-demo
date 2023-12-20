@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.epam.drill.agent.runner.autotest' version '0.3.3'
+    id 'com.epam.drill.autotest.runner'  version '0.22.5'
 }
 
 group 'com.epam'
@@ -12,9 +12,8 @@ allprojects {
         mavenCentral()
     }
 
-
     apply plugin: 'java'
-    apply plugin: 'com.epam.drill.agent.runner.autotest'
+    apply plugin: 'com.epam.drill.autotest.runner'
     apply from: rootProject.projectDir.path + "/test2run.gradle"
 
     dependencies {
@@ -25,10 +24,12 @@ allprojects {
     }
 
     drill {
-        version = "0.22.4"
+        version = "0.22.5"
         adminHost = "localhost"
         groupId = "realworld-app"
         adminPort = 8090
+        adminUserName = "user"
+        adminPassword = "user"
         additionalParams = [
                 "devToolsProxyAddress": "localhost:8093",
                 "withJsCoverage": true,

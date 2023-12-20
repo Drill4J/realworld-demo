@@ -68,7 +68,7 @@ cd realworld-java-and-js-coverage
     Example application is available at http://localhost:8080 (wait a few seconds for it to become available)
     ```
 
-    > If your internet connection is too slow example app start might fail.
+    > If your internet connection is too slow, example application might fail to start.
     > 
     > Simply wait for script to finish downloading dependencies
     > 
@@ -81,21 +81,20 @@ cd realworld-java-and-js-coverage
 
 3. Open [Drill4J Admin Panel](http://localhost:8091)
 
-4. You should be greeted with "Welcome to Drill4J" page and a login form. Press "Continue as guest (width admin rights)"
+4. You should be greeted with "Welcome to Drill4J" page and a login form.
 
-    ![login form](./img/image.png)
+    - Enter `admin` in both username and password fields
+    - Press "Sign in" button
 
-5. Close analytics form (it does not really matter wether you agree or not in the demo scenario)
+    ![sign in form](./img/sign-in.png)
+    
+5. Close analytics form (it does not really matter whether you agree or not in the demo scenario)
 
     ![analytics form](./img/image-1.png)
 
-6. You should see empty dashboard with `"Select Agent"` button.
+6. You should see empty dashboard with `"View Agents"` button.
 
-    __IMPORTANT__: If you see `"Add agent"` button instead - wait a few more seconds for the Drill4J to detect application agents
-
-    Press "Select Agent" button.
-
-    ![select agent button view](./img/image-2.png)
+    ![dashboard with select agent](./img/image-2.png)
 
 7. Sidebar area should expand and present you with a single `realworld-app` entry. Click the expand icon to see individual App Under Test components
     ![apps list](./img/image-3.png)
@@ -107,16 +106,13 @@ cd realworld-java-and-js-coverage
     You'll be navigated to the respective component overview page. Click on "Go to Plugin" button to get to the detailed dashboard.
     ![realworld backend overview page](./img/image-4.png)
 
-9. You should see detailed dashboard view
+9. You should see detailed dashboard view.
     ![detailed dashboard for realworld backend service](./img/image-5.png)
 
-    There is a lot to take in. No need to get into the details yet: 
-    1. At the bottom of the page there is a table with Application packages/classes/methods.
-    2. To the right there is a `Coverage %` indicator, hinting that Drill4J already collected some coverage data during Application Under Test initialization 
-    
-    That should be enough for now. We'll get back here later once more data from initial E2E tests run is available.
+    This page displays metrics for the respective _Application Under Test_, but its not much too look at just yet.
+    First, we have to run tests.
 
-### Run tests for the **1-st** application build
+### Run E2E tests for the **1-st** Application Under Test version
 
 It is time to launch our tests. Since this demo does not have "real" CI/CD environment like Github Actions, TeamCity or even Jenkins we'll have to do it manually
 
@@ -129,29 +125,38 @@ It is time to launch our tests. Since this demo does not have "real" CI/CD envir
 2. Wait for the tests to be executed. It should take from 3 to 5 minutes. Once tests are done you'll see the following log:
     ![tests log](./img/image-7.png)
 
-3. Get back to `spring-realworld-backend` [dashboard page](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.1.0/overview?activeTab=methods)
-    
-4. Press "Finish scope" button
-    ![finish scope button](./img/image-8.png)
-
-5. Modal window with test run statistics will pop up. Press "Finish scope" inside modal to save collected data
-    ![finish scope modal](./img/image-9.png)
-
-    This action is usually automated with call from CI/CD scripts
-
-6. Navigate to `angular-realworld-frontend` [dashboard page](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.1.0/overview?activeTab=methods) and save data for frontend app as well
-
-    Press "Finish scope"
-
-    Confirm the modal by pressing "Finish scope" button inside modal
-
 ### Analyze collected metrics
 
-You can look through both `spring-realworld-backend` [dashboard page](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.1.0/overview?activeTab=methods) and `angular-realworld-frontend` [dashboard page](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.1.0/overview?activeTab=methods) to see kind of metrics Drill4J has collected from a sigle test run
+Now lets see metrics Drill4J has collected.
+
+Open the `spring-realworld-backend`'s [dashboard page](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.1.0/overview?activeTab=methods).
+
+1. First metric you see is the overall _Build coverage_ percentage - this indicates to which extent tests have covered our application. The percentage is calculated based on number of _probes_ - the special "counters" inserted by Drill4J agent into application in runtime. The single method will likely have a lot of those, so its a very granular metric.
+
+    ![build coverage percent metric](./img/image-build-coverage-percent.png)
+
+2. Next you can see _Total Methods_ number and how much of those methos where actually covered. Thats a slightly different view at the same metric.
+
+3. Then, there is a _Application Packages_ table. It contains a detailed coverage report for all packages, classes and methods. You can expand each respective entry to see metrics in finer detail.
+    - Notice that you can sort packages by coverage by clicking "Coverage" column title. That sorts packages form least covered to most covered. Its a good starting point to analyze which areas of application require more testing or lack it completely.
+
+    ![application packages table](./img/image-application-packages-table.png)
+
+4. Lastly, there is a _Build Tests_ [tab](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.1.0/overview?activeTab=tests). It presents you with the test-centric view of the collected metrics.
+    - Just like with the previous table, click _Coverage_ column to enable sorting. This functionality can be useful to detect wich tests might've become obsolete (if their coverage is marginally low, or even 0%)  
+
+    ![build tests tab](./img/image-build-tests-tab.png)
+
+> You can see all of the same metrics for the frontend application on `angular-realworld-frontend`'s [dashboard page](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.1.0/overview?activeTab=methods) 
+
+
+These are basic metrics Drill4J can infer from a single test run. But more interesting metrics arise when Drill4J detects change in the application.
+
+For that to happen, lets deploy new _Application Under Test_ version
 
 ### Deploy the **2-nd** application build
 
-It is time to deploy new Application Under Test build. This steps corresponds to such events as push to repository/launch of the automation tests that check the new app version.
+It is time to deploy new Application Under Test build. Think of it as a push to repository or a pull request with the corresponding test environment update.
 
 1. Deploy the 2-nd application build
 
@@ -160,23 +165,44 @@ It is time to deploy new Application Under Test build. This steps corresponds to
     ```
 
 2. Wait for the "New build" notification to appear on the Bell icon in the bottom-left corner of the page
+
     ![bell icon](./img/image-10.png)
 
 3. Click on the "Go to Build" button to explore the new build. See how Drill4J detected new, modified and deleted methods
+
     ![go to build](./img/image-11.png)
 
-4. You are now presented with key Drill4J metrics, besides _Coverage_: _Risks_ and _Recommended Tests_
-    ![recommended-tests](./img/image-12.png)
+You are now presented with key Drill4J metrics, besides _Coverage_: _Risks_ and _Recommended Tests_
 
-    Simply put, Drill4J tells you which areas of application were change with _Risks_ and tells you how to, likely, do that with _Recommended tests_
+![recommended-tests](./img/image-risks-and-recommended-tests.png)
 
-    To see it for yourself click on each respective number. Proceed when you are ready
+- _Risks_ is a number of methods that were either _Modified_(aka changed) from previous version or are completely _New_. We should probably test them in the first place.
+    - You can click on risks number to see the [exact list of changes](
+http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.2.0/risks). After running the tests, you can get back to this page to see, if tests has actually covered any of those.
+
+- _Recommended tests_ is a list of tests that likely to cover _Modified_ methods. Drill4J "knows" that because it uses data from test runs for previous application versions.
+
+This particular page displays recommended tests just for the _backend_ service, but we'll make use of test recommendation for the application as a whole in the next step.
 
 ### Run tests for the **2-nd** application build
 
-It is time to use power of _Recommended Test_ feature. You'll see how Drill4J allows to automatically select minimal test suite
+It is time to use power of _Recommended Test_ feature. You'll see how Drill4J allows to automatically select minimal test suite.
 
-1. Run tests by
+Since we are running E2E tests we'd like to have the exhaustive list, including tests that will cover both [risks of _frontend_](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.2.0/risks) and _backend_ services.
+
+For that, we can navigate to so called [_group_ page](http://localhost:8091/groups/realworld-app/plugins/test2code) that displays metrics for the whole application.
+
+![group page](./img/image-recommended-tests-group.png)
+
+Click on _Recommended tests_ number.
+
+![recommended tests curl](./img/image-recommende-tests-curl.png)
+
+That opens panel with example call to _Drill4J API_. 
+
+We've already created `test2run.gradle` task that calls this HTTP endpoint, parses the JSON response with the list of recommended tests and only launches required ones.
+
+1. Lets run those tests
 
     ```shell
     ./gradlew clean :build2:test2run
@@ -186,35 +212,15 @@ It is time to use power of _Recommended Test_ feature. You'll see how Drill4J al
 
 3. Once again, get back to `spring-realworld-backend` [dashboard page](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.1.0/overview?activeTab=methods) and `angular-realworld-frontend` [dashboard page](http://localhost:8091/agents/angular-realworld-frontend/plugins/test2code/builds/0.1.0/overview?activeTab=methods)
 
-4. Take a look at _Risks_ metric. Now press `Finish scope` button, confirm modal window and see how number of _Risks_ decreases
+4. Take a look at _Risks_ metric. See how number of _Risks_ decreases, but there are still some left.
+    
+    ![risks decreased](./img/image-risks-decreased.png)
 
-    ![risks covered](./img/image-13.png)
+    Drill4J checks whether executed tests actually covered changed introduced with the new _Application Under Test_ version
 
-    Drill4J checks whether executed tests actually covered changed introduce with new App Under Test versions
+    You can click on the _Risks_ number, to see [which risks were not covered](http://localhost:8091/agents/spring-realworld-backend/plugins/test2code/builds/0.2.0/risks) 
 
-    You can click on the _Risks_ again, to see to which degree they were covered
-
-    ![risks after scope finish](./img/image-17.png)
-
-    As you can tell, this is a good ground to build your Quiality Gates from
-
-5. Besides that, detailed coverage report is now available at the bottom of the page:
-
-    Click on column headers to sort entries in the table. This is a great way to find blind spots in App Under Test test coverage
-
-    ![coverage table](./img/image-14.png)
-
-6. Another great feature is `"Test"` tab
-
-    It presents the same data from testing perspective.
-
-    ![build tests tab](./img/image-15.png)
-
-    One can see how broadly and deeply each test has covered the application - with `Coverage %` and `Covered Methods` metrics for each test
-
-    ![build tests table](./img/image-16.png)
-
-    It can not only serves as a basis for _Recommended Tests_ metric, but also provides common communication ground for the whole team. Everyone can see which tests were executed and if they actually covered the expected features.  
+    This is a good metric to build Quiality Gates from. If by the end of the testing the number of _Risks_ reached `0` you can confidently tell you have checked all changes one way or the other.
 
 ## Finishing demo
 

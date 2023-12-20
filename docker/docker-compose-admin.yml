@@ -16,7 +16,7 @@ services:
         condition: service_healthy
 
   drill-admin:
-    image: drill4j/admin:${BACK_VERSION}
+    image: ghcr.io/drill4j/admin:${BACK_VERSION}
     environment:
       - DRILL_DB_PORT=5432
       - DRILL_AGENTS_SOCKET_TIMEOUT=6000
@@ -33,7 +33,6 @@ services:
       retries: 30
     ports:
       - 8090:8090
-      - 8453:8453
     networks:
       - drill4j-dev-network
     depends_on:
@@ -67,8 +66,10 @@ services:
       PERF_MEASUREMENT_ENABLED: 'true'
       PERF_DIFFS_ENABLED: 'true'
       WAIT_HOSTS: drill-admin:8090
-      DRILL_ADMIN_PROTOCOL: 'ws'
       DRILL_ADMIN_HOST: 'drill-admin:8090'
+      DRILL_ADMIN_IS_SECURE_CONNECTION: 'false'
+      DRILL_ADMIN_USERNAME: 'user'
+      DRILL_ADMIN_PASSWORD: 'user'
       DEBUG: 'drill:*'
       DEBUG_COLORS: 'true'
       FORCE_COLOR: '3'
