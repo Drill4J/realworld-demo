@@ -18,21 +18,24 @@ services:
   drill-admin:
     image: ghcr.io/drill4j/admin:${BACK_VERSION}
     environment:
-      - DRILL_DB_PORT=5432
-      - DRILL_AGENTS_SOCKET_TIMEOUT=6000
-      - DRILL_DB_HOST=${POSTGRES_HOST}
-      - DRILL_DB_NAME=${POSTGRES_DB}
-      - DRILL_DB_USER_NAME=${POSTGRES_USER}
-      - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
-      - LOG_LEVEL=info
+      - "JAVA_TOOL_OPTIONS=-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9012 -Dcom.sun.management.jmxremote.rmi.port=9013 -Djava.rmi.server.hostname=0.0.0.0 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+      - "DRILL_DB_PORT=5432"
+      - "DRILL_AGENTS_SOCKET_TIMEOUT=6000"
+      - "DRILL_DB_HOST=${POSTGRES_HOST}"
+      - "DRILL_DB_NAME=${POSTGRES_DB}"
+      - "DRILL_DB_USER_NAME=${POSTGRES_USER}"
+      - "DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}"
+      - "DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}"
+      - "LOG_LEVEL= info"
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8090" ]
       interval: 10s
       timeout: 3s
       retries: 30
     ports:
-      - 8090:8090
+      - "8090:8090"
+      - "9012:9012"
+      - "9013:9013"
     networks:
       - drill4j-dev-network
     depends_on:

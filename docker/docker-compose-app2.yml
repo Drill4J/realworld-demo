@@ -15,7 +15,7 @@ services:
       - "${REALWORLD_API_PORT}:8080"
     environment:
       - "ACCESS_CONTROL_ALLOW_ORIGIN=http://localhost:8080"
-      - "JAVA_TOOL_OPTIONS=-agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},buildVersion=0.2.0,logLevel=INFO,packagePrefixes=io/spring"
+      - "JAVA_TOOL_OPTIONS=-Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.rmi.port=9011 -Djava.rmi.server.hostname=0.0.0.0 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},buildVersion=0.2.0,logLevel=INFO,packagePrefixes=io/spring"
     depends_on:
       - db
     volumes:
