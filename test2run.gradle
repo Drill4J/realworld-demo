@@ -1,9 +1,9 @@
 import groovy.json.JsonSlurper
 
 
-static Set<String> suggestedTests() {
+Set<String> suggestedTests() {
     println('suggestedTests...');
-    def apiKey = System.getenv("API_KEY")
+    def apiKey = ext.API_KEY
 
     Set<String> test2run = []
     try {
