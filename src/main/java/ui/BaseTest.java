@@ -21,8 +21,14 @@ abstract class BaseTest {
 
     @BeforeAll
     public static void beforeAll() {
-        System.setProperty("webdriver.chrome.driver", "..\\chrome-driver\\chromedriver.exe");
-        Configuration.browserBinary = "..\\chromium-binary\\chrome-win\\chrome.exe";
+        String osName = System.getProperty("os.name").toLowerCase();
+        if (osName.contains("mac")) {
+            System.setProperty("webdriver.chrome.driver", "../chrome-driver/chromedriver");
+            Configuration.browserBinary = "../chromium-binary/chrome-mac/Chromium.app/Contents/MacOS/Chromium";
+        } else {
+            System.setProperty("webdriver.chrome.driver", "..\\chrome-driver\\chromedriver.exe");
+            Configuration.browserBinary = "..\\chromium-binary\\chrome-win\\chrome.exe";
+        }
         open(baseUrl);
     }
 
