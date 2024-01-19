@@ -121,6 +121,14 @@ It is time to launch our tests. Since this demo does not have "real" CI/CD envir
     ```shell
     ./gradlew clean :build1:test
     ```
+   
+#### Notice for macOS Users
+```
+    When running tests on macOS for the first time, you may encounter an issue with launching Chromium. To ensure successful execution of Chromium, it's necessary to grant permission for apps from an unidentified developer.
+    Additionally, you will need to explicitly allow Chromium to run by navigating to:  
+    System Settings -> Privacy & Security -> Chromium -> "Open anyway"
+    This step is crucial to bypass macOS's default security measures for applications downloaded from sources not recognized by Apple.
+```
 
 2. Wait for the tests to be executed. It should take from 3 to 5 minutes. Once tests are done you'll see the following log:
     ![tests log](./img/image-7.png)
