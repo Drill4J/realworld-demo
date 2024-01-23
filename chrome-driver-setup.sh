@@ -23,10 +23,17 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   chromeDriverUrl="https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_mac64.zip"
   zipFile="$destinationDir/chromedriver_mac64.zip"
   binaryPath="$destinationDir/chromedriver"
-else
+elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
   chromeDriverUrl="https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_win32.zip"
   zipFile="$destinationDir/chromedriver_win32.zip"
   binaryPath="$destinationDir/chromedriver.exe"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  chromeDriverUrl="https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip"
+  zipFile="$destinationDir/chromedriver_linux64.zip"
+  binaryPath="$destinationDir/chromedriver"
+else
+  echo "Unknown operating system"
+  exit 1
 fi
 
 if [ -f "$binaryPath" ]; then
