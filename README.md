@@ -48,6 +48,10 @@ git clone https://github.com/Drill4J/realworld-java-and-js-coverage.git;
 cd realworld-java-and-js-coverage
 ``` 
 
+#### Notice for Unix system.
+
+When encountering an "Access Denied" error, it is advisable to execute the command using 'sudo <command>' for elevated privileges.You might type sudo <command> when you recieve error Access Denied.
+
 ### Deploy Drill4J services and Realworld application
 
 1. Execute the following command to start Drill4J services and deploy Realworld application

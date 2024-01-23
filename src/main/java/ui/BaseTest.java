@@ -25,9 +25,14 @@ abstract class BaseTest {
         if (osName.contains("mac")) {
             System.setProperty("webdriver.chrome.driver", "../chrome-driver/chromedriver");
             Configuration.browserBinary = "../chromium-binary/chrome-mac/Chromium.app/Contents/MacOS/Chromium";
-        } else {
+        } else if (osName.contains("win")) {
             System.setProperty("webdriver.chrome.driver", "..\\chrome-driver\\chromedriver.exe");
             Configuration.browserBinary = "..\\chromium-binary\\chrome-win\\chrome.exe";
+        } else if (osName.contains("linux")) {
+            System.setProperty("webdriver.chrome.driver", "../chrome-driver/chromedriver");
+            Configuration.browserBinary = "../chromium-binary/chrome-linux/chrome";
+        } else {
+            throw new UnsupportedOperationException("Unsupported operating system: " + osName);
         }
         open(baseUrl);
     }

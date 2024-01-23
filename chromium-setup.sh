@@ -27,9 +27,15 @@ mkdir -p "$destinationDir"
 if [[ "$OSTYPE" == "darwin"* ]]; then
   chromeBinaryUrl="https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Mac%2F1135589%2Fchrome-mac.zip?generation=1682464249396998&alt=media"
   binaryPath="$destinationDir/chrome-mac/Chromium.app/Contents/MacOS/Chromium"
-else
+elif [[ "$OSTYPE" == "cygwin" || "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
   chromeBinaryUrl="https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F1148119%2Fchrome-win.zip?generation=1684876145913156&alt=media"
   binaryPath="$destinationDir/chrome-win/chrome.exe"
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  chromeBinaryUrl="https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F1135580%2Fchrome-linux.zip?generation=1682461915692191&alt=media"
+  binaryPath="$destinationDir/chrome-linux/chrome"
+else  
+  echo "Unknown operating system"
+  exit 1
 fi
 
 if does_chromium_exist "$binaryPath"; then
