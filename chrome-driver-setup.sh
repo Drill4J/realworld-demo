@@ -24,7 +24,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   zipFile="$destinationDir/chromedriver_mac64.zip"
   binaryPath="$destinationDir/chromedriver"
 else
-  #  TODO check on Windows
   chromeDriverUrl="https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_win32.zip"
   zipFile="$destinationDir/chromedriver_win32.zip"
   binaryPath="$destinationDir/chromedriver.exe"
