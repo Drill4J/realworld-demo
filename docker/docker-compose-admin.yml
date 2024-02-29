@@ -66,10 +66,8 @@ services:
       PERF_MEASUREMENT_ENABLED: 'true'
       PERF_DIFFS_ENABLED: 'true'
       WAIT_HOSTS: drill-admin:8090
-      DRILL_ADMIN_HOST: 'drill-admin:8090'
-      DRILL_ADMIN_IS_SECURE_CONNECTION: 'false'
-      DRILL_ADMIN_USERNAME: 'user'
-      DRILL_ADMIN_PASSWORD: 'user'
+      DRILL_ADMIN_ADDRESS": "http://drill-admin:8090",
+      DRILL_API_KEY": "${DRILL_API_KEY}",
       DEBUG: 'drill:*'
       DEBUG_COLORS: 'true'
       FORCE_COLOR: '3'
