@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'com.epam.drill.autotest.runner'  version '0.22.5'
+    id 'com.epam.drill.autotest.runner'  version '0.22.6'
 }
 
 group 'com.epam'
@@ -24,11 +24,11 @@ allprojects {
     }
 
     drill {
-        version = "0.22.5"
+        version = "0.22.6"
         adminHost = "localhost"
         groupId = "realworld-app"
         adminPort = 8090
-        adminUserName = "user"
+        apiKey = "1_beecab77e485c534b04b22ab1ce74c859c063c743eb8dae11a7127ff4ccf24f6"
         adminPassword = "user"
         additionalParams = [
                 "devToolsProxyAddress": "localhost:8093",
