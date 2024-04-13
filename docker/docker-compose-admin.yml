@@ -7,38 +7,35 @@ services:
     ports:
       - 8091:8080
     environment:
-      WAIT_HOSTS: drill-admin:8090
+      UPSTREAM: host.docker.internal:8090
       UI_PLUGINS_URLS: 'test2code#https://cdn.jsdelivr.net/npm/@drill4j/test2code-ui@${TEST2CODE_UI_VERSION}/dist/Drill4J-test-to-code.js'
     networks:
       - drill4j-dev-network
-    depends_on:
-      drill-admin:
-        condition: service_healthy
 
-  drill-admin:
-    image: ghcr.io/drill4j/admin:${BACK_VERSION}
-    environment:
-      - DRILL_DB_PORT=5432
-      - DRILL_JS_COVERAGE_CONVERTER_ADDRESS=http://js-agent:8092
-      - DRILL_AGENTS_SOCKET_TIMEOUT=6000
-      - DRILL_DB_HOST=${POSTGRES_HOST}
-      - DRILL_DB_NAME=${POSTGRES_DB}
-      - DRILL_DB_USER_NAME=${POSTGRES_USER}
-      - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
-      - LOG_LEVEL=info
-    healthcheck:
-      test: [ "CMD", "curl", "http://localhost:8090" ]
-      interval: 10s
-      timeout: 3s
-      retries: 30
-    ports:
-      - 8090:8090
-    networks:
-      - drill4j-dev-network
-    depends_on:
-      postgres:
-        condition: service_healthy
+  # drill-admin:
+  #   image: ghcr.io/drill4j/admin:${BACK_VERSION}
+  #   environment:
+  #     - DRILL_DB_PORT=5432
+  #     - DRILL_JS_COVERAGE_CONVERTER_ADDRESS=http://js-agent:8092
+  #     - DRILL_AGENTS_SOCKET_TIMEOUT=6000
+  #     - DRILL_DB_HOST=${POSTGRES_HOST}
+  #     - DRILL_DB_NAME=${POSTGRES_DB}
+  #     - DRILL_DB_USER_NAME=${POSTGRES_USER}
+  #     - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
+  #     - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
+  #     - LOG_LEVEL=info
+  #   healthcheck:
+  #     test: [ "CMD", "curl", "http://localhost:8090" ]
+  #     interval: 10s
+  #     timeout: 3s
+  #     retries: 30
+  #   ports:
+  #     - 8090:8090
+  #   networks:
+  #     - drill4j-dev-network
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
 
   postgres:
     image: postgres:14.1
@@ -57,6 +54,7 @@ services:
       retries: 5
     networks:
       - drill4j-dev-network
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_min_duration_statement=0"]
 
   js-agent:
     image: drill4j/js-agent:${JS_AGENT_VERSION}
@@ -76,9 +74,6 @@ services:
       - drill-data-js-agent:/usr/src/app/js-agent-data
     networks:
       - drill4j-dev-network
-    depends_on:
-      drill-admin:
-        condition: service_healthy
 
   devtools-proxy:
     image: drill4j/devtools-proxy:${DEVTOOLS_PROXY_VERSION}
@@ -92,15 +87,15 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  # The sole function of this container is to download agent files according to version specified in AGENT_VERSION env variable
-  agent-files:
-    image: drill4j/java-agent:0.8.0-38
-    environment:
-      - AGENT_VERSION=${JAVA_AGENT_VERSION} 
-    volumes:
-      - agent-files:/data
-    networks:
-      - drill4j-dev-network
+  # # The sole function of this container is to download agent files according to version specified in AGENT_VERSION env variable
+  # agent-files:
+  #   image: drill4j/java-agent:0.8.0-38
+  #   environment:
+  #     - AGENT_VERSION=${JAVA_AGENT_VERSION} 
+  #   volumes:
+  #     - agent-files:/data
+  #   networks:
+  #     - drill4j-dev-network
 
 volumes:
   agent-files:

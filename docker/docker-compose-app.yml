@@ -7,7 +7,8 @@ services:
     ports:
       - "${REALWORLD_FRONTEND_PORT}:80"
     environment:
-      - "DRILL_JS_AGENT_HOST=http://js-agent:8092"
+      - "DRILL_JS_AGENT_HOST=http://host.docker.internal:8092"
+      # - "DRILL_JS_AGENT_HOST=http://js-agent:8092"
     networks:
       - drill4j-dev-network
 
@@ -17,11 +18,16 @@ services:
       - "${REALWORLD_API_PORT}:8080"
     environment:
       - "ACCESS_CONTROL_ALLOW_ORIGIN=http://localhost:8080"
-      - "JAVA_TOOL_OPTIONS=-agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},apiKey=${DRILL_API_KEY},buildVersion=0.1.0,packagePrefixes=io/spring"
+      # once sent to admin, packagePrefixes value (io/spring) gets assigned to vcsMetadataHash
+      - "JAVA_TOOL_OPTIONS=-agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},apiKey=${DRILL_API_KEY},buildVersion=0.1.0,packagePrefixes=io/spring,vcsMetadataHash=realworld-hash-1,vcsMetadataParents=realworld-hash-0,vcsMetadataBranch=main"
+      # once sent to admin, packagePrefixes, vcsMetadataHash, vcsMetadataParents, vcsMetadataBranch are all empty
+      # - "JAVA_TOOL_OPTIONS=-agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,adminAddress=${DRILL_ADMIN_ADDRESS},agentId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},apiKey=${DRILL_API_KEY},vcsMetadataHash=realworld-hash-1,vcsMetadataParents=realworld-hash-0,vcsMetadataBranch=main,buildVersion=0.1.0,packagePrefixes=io/spring"
     depends_on:
       - realworld-db
     volumes:
-      - agent-files:/data
+      # - agent-files:/data
+      # unzip linuxX64-0.8.5.zip in ./docker and rename folder from "linuxX64-0.8.5" to "data"
+      - ./data:/data
     entrypoint: [ "java", "-jar","/spring-boot-realworld-example-app-0.0.1-SNAPSHOT.jar" ]
     networks:
       - drill4j-dev-network
