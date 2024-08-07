@@ -11,6 +11,8 @@ build/
 
 ### Docker ###
 /docker/data
+/docker/metabase-volumes-bak
+/docker/metabase-volumes
 
 ### Misc ###
 *.log
