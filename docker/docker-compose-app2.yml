@@ -10,7 +10,7 @@ services:
     networks:
       - drill4j-dev-network
 
-  realworld-api-2:
+  realworld-api:
     image: drill4j/real-world-spring-api:java-and-js-coverage-0.2.0
     ports:
       - "${REALWORLD_API_PORT_2}:8080"
