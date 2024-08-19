@@ -97,6 +97,20 @@ public class CommonTest extends BaseSetup {
     }
 
     @Test
+    public void updateProfile() {
+        login();
+
+        String bio = "Saturn is the sixth planet from the Sun, and the second largest in the solar system. It's surrounded by beautiful rings.";
+        $x("//a[@href='/settings']").click();
+        $x("//textarea[@ng-reflect-name='bio']").clear(); // Clear existing text in the bio field
+        $x("//textarea[@ng-reflect-name='bio']").sendKeys(bio);
+        $x("//button[text()=' Update Settings ']").click();
+        $x("//a[@href='/settings']").click();
+
+        $x("//textarea[@ng-reflect-name='bio']").shouldHave(value(bio));
+    }
+
+    @Test
     public void loginUser() {
         logout();
         $x("//a[@href='/login']").click();
