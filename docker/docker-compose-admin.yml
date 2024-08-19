@@ -58,13 +58,19 @@ services:
       - "host.docker.internal:host-gateway"
 
   agent-files:
-      image: drill4j/java-agent:0.8.0-38
-      environment:
-        - AGENT_VERSION=${JAVA_AGENT_VERSION}
-      volumes:
-        - agent-files:/data
-      networks:
-        - drill4j-dev-network
+    image: drill4j/java-agent:0.8.0-38
+    environment:
+      - AGENT_VERSION=${JAVA_AGENT_VERSION}
+    volumes:
+      - agent-files:/data
+    healthcheck:
+      test: ["CMD", "sh", "-c", "test -f /data/agent/libdrill_agent.so || exit 1"]
+      interval: 30s
+      retries: 6
+      start_period: 10s
+      timeout: 10s
+    networks:
+      - drill4j-dev-network
 
 volumes:
   drill-data-pg:

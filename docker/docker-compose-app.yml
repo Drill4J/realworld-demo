@@ -21,7 +21,6 @@ services:
       - realworld-db
     volumes:
       - agent-files:/data
-      # - ./data:/data
     entrypoint: [ "java", "-jar","/spring-boot-realworld-example-app-0.0.1-SNAPSHOT.jar" ]
     networks:
       - drill4j-dev-network
