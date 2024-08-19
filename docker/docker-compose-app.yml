@@ -20,7 +20,8 @@ services:
     depends_on:
       - realworld-db
     volumes:
-      - ./data:/data
+      - agent-files:/data
+      # - ./data:/data
     entrypoint: [ "java", "-jar","/spring-boot-realworld-example-app-0.0.1-SNAPSHOT.jar" ]
     networks:
       - drill4j-dev-network
@@ -34,3 +35,6 @@ services:
 
 networks:
   drill4j-dev-network:
+
+volumes:
+  agent-files:

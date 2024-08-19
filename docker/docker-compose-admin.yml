@@ -2,6 +2,30 @@ version: '3'
 
 services:
 
+  drill-admin:
+    image: ghcr.io/drill4j/admin:${BACK_VERSION}
+    environment:
+      - DRILL_DB_PORT=5432
+      - DRILL_AGENTS_SOCKET_TIMEOUT=6000
+      - DRILL_DB_HOST=${POSTGRES_HOST}
+      - DRILL_DB_NAME=${POSTGRES_DB}
+      - DRILL_DB_USER_NAME=${POSTGRES_USER}
+      - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
+      - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
+      - LOG_LEVEL=info
+    healthcheck:
+      test: [ "CMD", "curl", "http://localhost:8090" ]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+    ports:
+      - 8090:8090
+    networks:
+      - drill4j-dev-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   postgres:
     image: postgres:14.1
     ports:
@@ -33,8 +57,18 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  agent-files:
+      image: drill4j/java-agent:0.8.0-38
+      environment:
+        - AGENT_VERSION=${JAVA_AGENT_VERSION}
+      volumes:
+        - agent-files:/data
+      networks:
+        - drill4j-dev-network
+
 volumes:
   drill-data-pg:
+  agent-files:
 
 networks:
   drill4j-dev-network:
