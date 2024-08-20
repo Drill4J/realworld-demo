@@ -63,7 +63,7 @@ Drill4J services:
 9. Execute tests for `realworld:backend:0.2.0` build
 
     ```
-        ./tests.sh build1 
+        ./tests.sh build2
     ```
 
 10. Look at metrics for [`realworld:backend:0.2.0` build](#) again. You should see that:
