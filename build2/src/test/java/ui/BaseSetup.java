@@ -7,6 +7,8 @@ import static io.restassured.RestAssured.*;
 
 public class BaseSetup extends BaseTest {
 
+    public static String baseUrl = "http://localhost:8082";
+
     public BaseSetup() {
         given()
                 .header("Content-Type", "application/json")
@@ -65,6 +67,6 @@ public class BaseSetup extends BaseTest {
 
     @AfterAll
     public static void afterAll() {
-        given().delete("http://localhost:8080/api/articles/delete").then();
+        given().delete(baseUrl + "/api/articles/delete").then();
     }
 }

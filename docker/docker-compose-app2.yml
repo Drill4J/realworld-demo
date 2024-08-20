@@ -5,32 +5,23 @@ services:
   realworld-frontend-2:
     image: drill4j/real-world-angular:no-js-agent-0.9.0-build.2
     ports:
-      - "8080:80"
+      - "${REALWORLD_FRONTEND_2_PORT}:80"
     command: nginx -g 'daemon off;'
     networks:
       - drill4j-dev-network
 
-  realworld-api:
+  realworld-api-2:
     image: drill4j/real-world-spring-api:java-and-js-coverage-0.2.0
     ports:
-      - "${REALWORLD_API_PORT_2}:8080"
+      - "${REALWORLD_API_2_PORT}:8080"
     environment:
-      - "ACCESS_CONTROL_ALLOW_ORIGIN=http://localhost:8080"
+      - "ACCESS_CONTROL_ALLOW_ORIGIN=http://localhost:${REALWORLD_FRONTEND_2_PORT}"
       - "JAVA_TOOL_OPTIONS=-agentpath:/data/agent/libdrill_agent.so=drillInstallationDir=/data/agent,drillApiUrl=${DRILL_ADMIN_ADDRESS},appId=${DRILL_API_AGENT_ID},groupId=${DRILL_GROUP_ID},drillApiKey=${DRILL_API_KEY},buildVersion=0.2.0,packagePrefixes=io/spring"
-    depends_on:
-      - realworld-db-2
     volumes:
       - agent-files:/data
     entrypoint: [ "java", "-jar","/spring-boot-realworld-example-app-0.0.1-SNAPSHOT.jar" ]
     networks:
       - drill4j-dev-network
-
-  realworld-db-2:
-    image: mysql
-    environment:
-      - "MYSQL_ALLOW_EMPTY_PASSWORD=true"
-    ports:
-      - "4306:3306" # // changing outside port just to allow deployment - services communicate using internal port anyway
 
 networks:
   drill4j-dev-network:

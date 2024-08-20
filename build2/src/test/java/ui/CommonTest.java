@@ -55,32 +55,6 @@ public class CommonTest extends BaseSetup {
     }
 
     @Test
-    public void hugeTest_1() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-    }
-
-    @Test
-    public void hugeTest_2() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-    }
-
-    @Test
-    public void hugeTest_3() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-    }
-
-    @Test
-    public void hugeTest_4() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-    }
-
-    @Test
-    public void hugeTest_5() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-    }
-
-
-    @Test
     public void toggleHeart() {
         $x("//a[text()=' Global Feed ']").click();
         $x("//i[@class='ion-heart']").click();

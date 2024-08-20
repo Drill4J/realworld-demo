@@ -2,8 +2,13 @@ version: '3'
 
 services:
 
+  drill-ui:
+    image: ghcr.io/drill4j/drill4j-ui:${DRILL_UI_VERSION}
+    ports:
+      - "8091:8080"
+
   drill-admin:
-    image: ghcr.io/drill4j/admin:${BACK_VERSION}
+    image: ghcr.io/drill4j/admin:${DRILL_ADMIN_BACKEND_VERSION}
     environment:
       - DRILL_DB_PORT=5432
       - DRILL_AGENTS_SOCKET_TIMEOUT=6000
@@ -11,7 +16,7 @@ services:
       - DRILL_DB_NAME=${POSTGRES_DB}
       - DRILL_DB_USER_NAME=${POSTGRES_USER}
       - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
+      - DRILL_DB_MAX_POOL_SIZE=${DRILL_ADMIN_BACKEND_DB_MAX_POOL_SIZE}
       - LOG_LEVEL=info
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8090" ]
@@ -46,7 +51,7 @@ services:
     command: ["postgres", "-c", "log_statement=all", "-c", "log_min_duration_statement=0"]
 
   devtools-proxy:
-    image: drill4j/devtools-proxy:${DEVTOOLS_PROXY_VERSION}
+    image: drill4j/devtools-proxy:${DRILL_DEVTOOLS_PROXY_VERSION}
     ports:
       - "8093:8080"
     environment:

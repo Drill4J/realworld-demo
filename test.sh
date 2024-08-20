@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export DRILL_API_KEY="35_5468afe628ec2d9be0fd3c958bbfdde00bf45077c40749c8dbddac9c88791c5c"
+export DRILL_API_KEY="1_1d5e9bc750d3190dece821c66cbb3610b054154c1232e512f8f7f78ee5ae15e6"
 export DRILL_API_URL="http://localhost:8090/api"
 
-./gradlew build1:test
+./gradlew clean :$1:test

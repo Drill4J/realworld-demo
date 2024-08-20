@@ -68,6 +68,6 @@ public class BaseSetup extends BaseTest {
 
     @AfterAll
     public static void afterAll() {
-        given().delete("http://localhost:8080/api/articles/delete").then();
+        given().delete(baseUrl + "/api/articles/delete").then();
     }
 }
