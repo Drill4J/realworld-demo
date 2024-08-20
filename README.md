@@ -33,7 +33,7 @@ Drill4J services:
 3. Deploy Realworld App
 
     ```shell
-    ./start-drill4j-services.sh
+    ./start-example-realworld-app.sh
     ```
 
 4. Login to [Metabase](http://localhost:8095)
