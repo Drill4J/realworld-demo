@@ -35,7 +35,7 @@ public class CommonTest extends BaseSetup {
         $x("//p[contains(.,'Text We would appreciate any feedback.')]")
                 .shouldBe(Condition.visible);
     }
-
+    
 
     @Test
     public void addComment() {
@@ -119,5 +119,4 @@ public class CommonTest extends BaseSetup {
         Selenide.clearBrowserCookies();
         Selenide.clearBrowserLocalStorage();
     }
-
 }

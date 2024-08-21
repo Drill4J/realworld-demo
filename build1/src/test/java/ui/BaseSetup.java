@@ -2,19 +2,25 @@ package ui;
 
 import org.junit.jupiter.api.*;
 
+import com.codeborne.selenide.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.restassured.RestAssured.*;
 
-public class BaseSetup extends BaseTest {
+public class BaseSetup {
 
-    public boolean isLogged;
+    public static String user = "test";
+    public static String email = "test@test.test";
+    public static String password = "test123";
+    public static String baseUrl = "http://localhost:8080";
 
     public BaseSetup() {
+        Configuration.baseUrl = baseUrl;
+        Configuration.holdBrowserOpen = true;
+        Configuration.browser = "chrome";
         given()
                 .header("Content-Type", "application/json")
                 .body("{\"user\":{\"email\":\"" + email + "\",\"password\":\"" + password + "\",\"username\":\"" + user + "\"}}")
-                .post(baseUrl + "/api/users")
-                .statusCode();
+                .post(baseUrl + "/api/users");
         String token = given()
                 .header("Content-Type", "application/json")
                 .body("{\"user\":{\"email\":\"" + email + "\",\"password\":\"" + password + "\"}}")
@@ -26,25 +32,42 @@ public class BaseSetup extends BaseTest {
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Token " + token)
                 .body("{\"article\":{\"tagList\":[],\"title\":\"Test Article\",\"description\":\"Autotests\",\"body\":\"Text\"}}")
-                .post(baseUrl + "/api/articles/")
-                .statusCode();
+                .post(baseUrl + "/api/articles/");
         given()
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Token " + token)
                 .body("{\"article\":{\"tagList\":[],\"title\":\"delete\",\"description\":\"Autotests\",\"body\":\"Text\"}}")
-                .post(baseUrl + "/api/articles/")
-                .statusCode();
+                .post(baseUrl + "/api/articles/");
         given()
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Token " + token)
                 .body("{\"comment\":{\"body\":\"text\"}}")
-                .post(baseUrl + "/api/articles/test-article/comments")
-                .statusCode();
-
+                .post(baseUrl + "/api/articles/test-article/comments");
     }
 
-    @Override
-    public void login() {
+    @BeforeAll
+    public static void beforeAll() {
+        System.out.println("beforeAll Base URL: " + baseUrl);
+        System.setProperty("webdriver.chrome.driver", "..\\chrome-driver\\chromedriver.exe");
+        Configuration.browserBinary = "..\\chromium-binary\\chrome-win\\chrome.exe";
+        open(baseUrl);
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        given().delete(baseUrl + "/api/articles/delete").then();
+        Selenide.clearBrowserCookies();
+        Selenide.clearBrowserLocalStorage();
+        closeWindow();
+    }
+
+    @BeforeEach
+    public void setUp() {
+        open(baseUrl);
+        login();
+    }
+
+    public static void login() {
         try {
             open(baseUrl);
             $x("//a[@href='/login']").click();
@@ -55,8 +78,7 @@ public class BaseSetup extends BaseTest {
         }
     }
 
-    @Override
-    public void logout() {
+    public static void logout() {
         try {
             open(baseUrl);
             $x("//a[@href='/profile/test']").click();
@@ -66,8 +88,4 @@ public class BaseSetup extends BaseTest {
         }
     }
 
-    @AfterAll
-    public static void afterAll() {
-        given().delete(baseUrl + "/api/articles/delete").then();
-    }
 }

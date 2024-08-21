@@ -36,6 +36,7 @@ public class CommonTest extends BaseSetup {
                 .shouldBe(Condition.visible);
     }
 
+
     @Test
     public void addComment() {
         $x("//a[text()=' Global Feed ']").click();
@@ -59,7 +60,6 @@ public class CommonTest extends BaseSetup {
         $x("//i[@class='ion-heart']").click();
         $x("//app-favorite-button[contains(.,'1')]").shouldBe(Condition.visible);
     }
-
 
     @Test
     public void deleteArticle() {
