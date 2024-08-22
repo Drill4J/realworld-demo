@@ -10,6 +10,7 @@ services:
   drill-admin:
     image: ghcr.io/drill4j/admin:${DRILL_ADMIN_BACKEND_VERSION}
     environment:
+      - DRILL_METRICS_UI_BASE_URL=${DRILL_UI_BASE_URL}
       - DRILL_DB_PORT=5432
       - DRILL_AGENTS_SOCKET_TIMEOUT=6000
       - DRILL_DB_HOST=${POSTGRES_HOST}
