@@ -8,6 +8,7 @@ mkdir -p "$destinationDir"
 
 # 2. Check if the unzipped files already exist
 if [ ! -f "$destinationDir/chrome-win/chrome.exe" ]; then
+    echo "Downloading Chromium..."
     # 3. Download
     curl -L -o "$zipFile" "$chromeBinaryUrl"
     

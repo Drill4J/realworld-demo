@@ -8,6 +8,7 @@ mkdir -p "$destinationDir"
 
 # 2. Check if the unzipped files already exist
 if [ ! -f "$destinationDir/chromedriver.exe" ]; then
+    echo "Downloading Chrome Driver..."
     # 3. Download
     curl -L -o "$zipFile" "$chromeDriverUrl"
 

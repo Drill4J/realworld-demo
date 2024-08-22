@@ -60,7 +60,7 @@ Drill4J services:
     1. Navigate back to repository root
     2. Execute script
     ```
-        ./tests.sh build1 
+        ./test.sh build1 
     ```
     3. Wait for the tests to complete (you will see the message in the terminal)
 
@@ -74,7 +74,7 @@ Drill4J services:
 9. Execute tests for `realworld:backend:0.2.0` build
 
     ```
-        ./tests.sh build2
+        ./test.sh build2
     ```
 
 10. Look at metrics for [`realworld:backend:0.2.0`](http://localhost:8095/dashboard/2?group=realworld&app=backend&build=realworld%3Abackend%3A0.2.0&baseline_build=&package_filter=*&class_filter=*) again. You should see that:
