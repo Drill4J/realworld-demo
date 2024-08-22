@@ -20,8 +20,8 @@ Drill4J services:
 1. Clone project
 
     ```shell
-    git clone https://github.com/Drill4J/realworld-java-and-js-coverage.git;
-    cd realworld-java-and-js-coverage
+    git clone https://github.com/Drill4J/realworld-demo.git;
+    cd realworld-demo
     ``` 
 
 2. Deploy Drill4J services:
