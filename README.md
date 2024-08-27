@@ -12,6 +12,14 @@ Drill4J services:
 ## Prerequisites to run demo
 
 1. [Docker](https://www.docker.com/) 
+
+    - It is recommended to use latest versions. Demo is created with:
+    
+        ```
+        Docker version 27.1.1, build 6312585
+        Docker Compose version v2.29.1-desktop.1
+        ```
+
 2. [Java 8/1.8](https://www.oracle.com/java/technologies/downloads/) or later
 3. [Git](https://git-scm.com/downloads)
 

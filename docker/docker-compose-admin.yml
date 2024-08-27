@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
 
@@ -41,8 +41,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - ./drill-volumes/data.sql:/docker-entrypoint-initdb.d/data.sql
-      # - ./drill-volumes/pg:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+      - drill-data-pg:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 10s
@@ -63,6 +63,30 @@ services:
       DEBUG_LOG_LEVEL: '4'
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  metabase:
+    image: metabase/metabase@sha256:96416c11371d400aecc2073b8d0e8335cc7c413b236ef724e51dda095b2580ea
+    container_name: metabase
+    hostname: metabase
+    volumes:
+      # Share urandom from host machine to speedup startup (only on Linux) (https://github.com/metabase/metabase/issues/10175, https://ruleoftech.com/2016/avoiding-jvm-delays-caused-by-random-number-generation)
+      - /dev/urandom:/dev/random:ro
+    ports:
+      - 8095:3000
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_HOST: postgres
+      MB_DB_PORT: 5432
+      MB_DB_USER: ${POSTGRES_USER}
+      MB_DB_PASS: ${POSTGRES_PASSWORD}
+      MB_DB_DBNAME: ${POSTGRES_DB}
+    networks:
+      - drill4j-dev-network
+    healthcheck:
+      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
   agent-files:
     image: drill4j/java-agent:0.8.0-38
