@@ -8,3 +8,11 @@ out/
 build/
 /chromium-binary/
 /chrome-driver/
+
+### Docker ###
+/docker/data
+/docker/drill-volumes/pg
+/docker/metabase-volumes/pg
+
+### Misc ###
+*.log

@@ -12,7 +12,6 @@ import static com.codeborne.selenide.Selenide.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CommonTest extends BaseSetup {
 
-    private final int sleepTime = 3_000;
 
     @Test
     public void createNewArticle() {
@@ -36,7 +35,7 @@ public class CommonTest extends BaseSetup {
         $x("//p[contains(.,'Text We would appreciate any feedback.')]")
                 .shouldBe(Condition.visible);
     }
-
+    
 
     @Test
     public void addComment() {
@@ -56,37 +55,6 @@ public class CommonTest extends BaseSetup {
     }
 
     @Test
-    public void hugeTest_1() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-        Thread.sleep(sleepTime);
-    }
-
-    @Test
-    public void hugeTest_2() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-        Thread.sleep(sleepTime);
-    }
-
-    @Test
-    public void hugeTest_3() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-        Thread.sleep(sleepTime);
-    }
-
-    @Test
-    public void hugeTest_4() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-        Thread.sleep(sleepTime);
-    }
-
-    @Test
-    public void hugeTest_5() throws InterruptedException {
-        $x("//a[text()=' Global Feed ']").click();
-        Thread.sleep(sleepTime);
-    }
-
-
-    @Test
     public void toggleHeart() {
         $x("//a[text()=' Global Feed ']").click();
         $x("//i[@class='ion-heart']").click();
@@ -100,6 +68,20 @@ public class CommonTest extends BaseSetup {
         $x("//button[contains(.,' Delete Article ')]").click();
         $x("//a[text()=' Global Feed ']").click();
         $x("//a[@href='/article/delete']").shouldNotBe(Condition.visible);
+    }
+
+    @Test
+    public void updateProfile() {
+        login();
+
+        String bio = "Saturn is the sixth planet from the Sun, and the second largest in the solar system. It's surrounded by beautiful rings.";
+        $x("//a[@href='/settings']").click();
+        $x("//textarea[@ng-reflect-name='bio']").clear(); // Clear existing text in the bio field
+        $x("//textarea[@ng-reflect-name='bio']").sendKeys(bio);
+        $x("//button[text()=' Update Settings ']").click();
+        $x("//a[@href='/settings']").click();
+
+        $x("//textarea[@ng-reflect-name='bio']").shouldHave(value(bio));
     }
 
     @Test
@@ -137,5 +119,4 @@ public class CommonTest extends BaseSetup {
         Selenide.clearBrowserCookies();
         Selenide.clearBrowserLocalStorage();
     }
-
 }

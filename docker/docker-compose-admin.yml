@@ -1,30 +1,23 @@
-version: '3'
+version: '3.8'
 
 services:
 
-  admin-ui:
-    image: drill4j/admin-ui-root-config:${FRONT_VERSION}
+  drill-ui:
+    image: ghcr.io/drill4j/drill4j-ui:${DRILL_UI_VERSION}
     ports:
-      - 8091:8080
-    environment:
-      WAIT_HOSTS: drill-admin:8090
-      UI_PLUGINS_URLS: 'test2code#https://cdn.jsdelivr.net/npm/@drill4j/test2code-ui@${TEST2CODE_UI_VERSION}/dist/Drill4J-test-to-code.js'
-    networks:
-      - drill4j-dev-network
-    depends_on:
-      drill-admin:
-        condition: service_healthy
+      - "8091:8080"
 
   drill-admin:
-    image: ghcr.io/drill4j/admin:${BACK_VERSION}
+    image: ghcr.io/drill4j/admin:${DRILL_ADMIN_BACKEND_VERSION}
     environment:
+      - DRILL_METRICS_UI_BASE_URL=${DRILL_UI_BASE_URL}
       - DRILL_DB_PORT=5432
       - DRILL_AGENTS_SOCKET_TIMEOUT=6000
       - DRILL_DB_HOST=${POSTGRES_HOST}
       - DRILL_DB_NAME=${POSTGRES_DB}
       - DRILL_DB_USER_NAME=${POSTGRES_USER}
       - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DRILL_DB_MAX_POOL_SIZE=${DRILL_DB_MAX_POOL_SIZE}
+      - DRILL_DB_MAX_POOL_SIZE=${DRILL_ADMIN_BACKEND_DB_MAX_POOL_SIZE}
       - LOG_LEVEL=info
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8090" ]
@@ -48,6 +41,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
       - drill-data-pg:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres']
@@ -56,58 +50,62 @@ services:
       retries: 5
     networks:
       - drill4j-dev-network
-
-  js-agent:
-    image: drill4j/js-agent:${JS_AGENT_VERSION}
-    ports:
-      - '8092:8092'
-    environment:
-      APP_PORT: '8092'
-      PERF_MEASUREMENT_ENABLED: 'true'
-      PERF_DIFFS_ENABLED: 'true'
-      WAIT_HOSTS: drill-admin:8090
-      DRILL_ADMIN_HOST: 'drill-admin:8090'
-      DRILL_ADMIN_IS_SECURE_CONNECTION: 'false'
-      DRILL_ADMIN_USERNAME: 'user'
-      DRILL_ADMIN_PASSWORD: 'user'
-      DEBUG: 'drill:*'
-      DEBUG_COLORS: 'true'
-      FORCE_COLOR: '3'
-      DEBUG_LOG_LEVEL: '4'
-    volumes:
-      - drill-data-js-agent:/usr/src/app/js-agent-data
-    networks:
-      - drill4j-dev-network
-    depends_on:
-      drill-admin:
-        condition: service_healthy
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_min_duration_statement=0"]
 
   devtools-proxy:
-    image: drill4j/devtools-proxy:${DEVTOOLS_PROXY_VERSION}
+    image: drill4j/devtools-proxy:${DRILL_DEVTOOLS_PROXY_VERSION}
     ports:
       - "8093:8080"
     environment:
       DEBUG: 'drill:*'
       DEBUG_COLORS: 'true'
       FORCE_COLOR: '3'
-      DEBUG_LOG_LEVEL: '2'
+      DEBUG_LOG_LEVEL: '4'
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-  # The sole function of this container is to download agent files according to version specified in AGENT_VERSION env variable
+  metabase:
+    image: metabase/metabase@sha256:96416c11371d400aecc2073b8d0e8335cc7c413b236ef724e51dda095b2580ea
+    container_name: metabase
+    hostname: metabase
+    volumes:
+      # Share urandom from host machine to speedup startup (only on Linux) (https://github.com/metabase/metabase/issues/10175, https://ruleoftech.com/2016/avoiding-jvm-delays-caused-by-random-number-generation)
+      - /dev/urandom:/dev/random:ro
+    ports:
+      - 8095:3000
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_HOST: postgres
+      MB_DB_PORT: 5432
+      MB_DB_USER: ${POSTGRES_USER}
+      MB_DB_PASS: ${POSTGRES_PASSWORD}
+      MB_DB_DBNAME: ${POSTGRES_DB}
+    networks:
+      - drill4j-dev-network
+    healthcheck:
+      test: curl --fail -I http://localhost:3000/api/health || exit 1
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
   agent-files:
     image: drill4j/java-agent:0.8.0-38
     environment:
-      - AGENT_VERSION=${JAVA_AGENT_VERSION} 
+      - AGENT_VERSION=${JAVA_AGENT_VERSION}
     volumes:
       - agent-files:/data
+    healthcheck:
+      test: ["CMD", "sh", "-c", "test -f /data/agent/libdrill_agent.so || exit 1"]
+      interval: 30s
+      retries: 6
+      start_period: 10s
+      timeout: 10s
     networks:
       - drill4j-dev-network
 
 volumes:
-  agent-files:
   drill-data-pg:
-  drill-data-js-agent:
+  agent-files:
 
 networks:
   drill4j-dev-network:
