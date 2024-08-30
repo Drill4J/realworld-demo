@@ -4,6 +4,11 @@ services:
 
   drill-ui:
     image: ghcr.io/drill4j/drill4j-ui:${DRILL_UI_VERSION}
+    environment:
+      API_HOST: host.docker.internal
+      API_PORT: 8090
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - "8091:8080"
 
