@@ -1,5 +1,8 @@
 # Drill4J Demo
 
+> ❗ __THIS IS NOT AN INSTALLATION INSTRUCTION__ ❗
+> On details of how to set up Drill4J for you project please refer to [Drill4J documentation](https://drill4j.github.io/docs/what-is-drill4j)
+
 Example project - [Realworld App](https://github.com/gothinkster/realworld) 
 - Backend: [Java + Spring Boot](https://github.com/Drill4J/spring-boot-realworld-example-app)
 - Frontend: [JS + Angular](https://github.com/Drill4J/angular-realworld-example-app)
