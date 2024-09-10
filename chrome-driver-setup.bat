@@ -9,10 +9,10 @@ if not exist "%destinationDir%" mkdir "%destinationDir%"
 
 REM 2. Check if the unzipped files already exist
 if not exist "%destinationDir%\chromedriver.exe" (
-    echo Downloading Chrome Driver...
+    echo Downloading Chrome Driver. Please wait a minute...
 
     REM 3. Download
-    powershell -Command "Invoke-WebRequest -Uri '%chromeDriverUrl%' -OutFile '%zipFile%'"
+    powershell -Command "$ProgressPreference = 'SilentlyContinue'; Invoke-WebRequest -Uri '%chromeDriverUrl%' -OutFile '%zipFile%'"
 
     REM 4. Unzip
     powershell -Command "Expand-Archive -Path '%zipFile%' -DestinationPath '%destinationDir%'"
