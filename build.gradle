@@ -28,7 +28,7 @@ allprojects {
         appId = "backend"
         packagePrefixes = ["com/realworld/springmongo"]
         enableTestAgent {
-            version="0.23.1"
+            version="0.23.2"
             logLevel = "TRACE"
             logFile = "./drill-log.log"
             additionalParams = [
