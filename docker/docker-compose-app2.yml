@@ -23,6 +23,7 @@ services:
       - "DRILL_GROUP_ID=${DRILL_GROUP_ID}"
       - "DRILL_BUILD_VERSION=0.2.0"
       - "DRILL_PACKAGE_PREFIXES=io/spring"
+      - "DRILL_ENV_ID=demo-2"
     volumes:
       - agent-files:/data
     entrypoint: [ "java", "-jar","/spring-boot-realworld-example-app-0.0.1-SNAPSHOT.jar" ]
