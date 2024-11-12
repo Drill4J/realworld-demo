@@ -31,8 +31,6 @@ services:
       retries: 30
     ports:
       - 8090:8090
-    networks:
-      - drill4j-dev-network
     depends_on:
       postgres:
         condition: service_healthy
@@ -53,8 +51,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - drill4j-dev-network
     command: ["postgres", "-c", "log_statement=all", "-c", "log_min_duration_statement=0"]
 
   devtools-proxy:
@@ -85,8 +81,6 @@ services:
       MB_DB_USER: ${POSTGRES_USER}
       MB_DB_PASS: ${POSTGRES_PASSWORD}
       MB_DB_DBNAME: ${POSTGRES_DB}
-    networks:
-      - drill4j-dev-network
     healthcheck:
       test: curl --fail -I http://localhost:3000/api/health || exit 1
       interval: 15s
@@ -105,12 +99,6 @@ services:
       retries: 6
       start_period: 10s
       timeout: 10s
-    networks:
-      - drill4j-dev-network
-
 volumes:
   drill-data-pg:
   agent-files:
-
-networks:
-  drill4j-dev-network:

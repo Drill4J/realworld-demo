@@ -7,8 +7,6 @@ services:
     ports:
       - "${REALWORLD_FRONTEND_PORT}:80"
     command: nginx -g 'daemon off;'
-    networks:
-      - drill4j-dev-network
 
   realworld-api:
     image: drill4j/real-world-spring-api:java-and-js-coverage-0.1.0
@@ -27,13 +25,8 @@ services:
     volumes:
       - agent-files:/data
     entrypoint: [ "java", "-jar","/spring-boot-realworld-example-app-0.0.1-SNAPSHOT.jar" ]
-    networks:
-      - drill4j-dev-network
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-networks:
-  drill4j-dev-network:
 
 volumes:
   agent-files:
