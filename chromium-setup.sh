@@ -1,5 +1,5 @@
 #!/bin/bash
-chromeBinaryUrl="https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F1148119%2Fchrome-win.zip?generation=1684876145913156&alt=media"
+chromeBinaryUrl="https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Win_x64%2F1131567%2Fchrome-win.zip?generation=1684876145913156&alt=media"
 destinationDir="./chromium-binary"
 zipFile="$destinationDir/chrome-win.zip"
 
