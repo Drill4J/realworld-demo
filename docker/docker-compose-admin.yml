@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
 
   drill-ui:
@@ -23,6 +21,7 @@ services:
       - DRILL_DB_USER_NAME=${POSTGRES_USER}
       - DRILL_DB_PASSWORD=${POSTGRES_PASSWORD}
       - DRILL_DB_MAX_POOL_SIZE=${DRILL_ADMIN_BACKEND_DB_MAX_POOL_SIZE}
+      - DRILL_SCHEDULER_REFRESH_VIEWS_INTERVAL_IN_MINUTES=1
       - LOG_LEVEL=info
     healthcheck:
       test: [ "CMD", "curl", "http://localhost:8090" ]
@@ -80,12 +79,27 @@ services:
       MB_DB_PORT: 5432
       MB_DB_USER: ${POSTGRES_USER}
       MB_DB_PASS: ${POSTGRES_PASSWORD}
-      MB_DB_DBNAME: ${POSTGRES_DB}
+      MB_DB_DBNAME: ${METABASE_POSTGRES_DB}
     healthcheck:
       test: curl --fail -I http://localhost:3000/api/health || exit 1
       interval: 15s
       timeout: 5s
       retries: 5
+    depends_on:
+      drill-metabase-dashboards-migration:    
+        condition: service_completed_successfully
+
+  drill-metabase-dashboards-migration:
+    image: ghcr.io/drill4j/drill-metabase-dashboards:${DRILL_METABASE_DASHBOARDS_VERSION}
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${METABASE_POSTGRES_DB}
+    depends_on:
+          postgres:
+            condition: service_healthy
 
   agent-files:
     image: drill4j/java-agent:0.8.0-38
